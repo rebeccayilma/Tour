@@ -18,14 +18,8 @@ uniqueConstraints = {@UniqueConstraint(name="place_name_uniqe", columnNames = "n
 )
 public class Place {
     @Id
-    @SequenceGenerator(name = "place_sequence",
-    sequenceName = "place_sequence",
-    allocationSize = 1)
 
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "place_sequence"
-    )
+    @GeneratedValue
     @Column(name = "id", updatable = false)
     private Long id;
     @Column(name = "name", columnDefinition = "TEXT", nullable = false)
