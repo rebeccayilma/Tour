@@ -1,16 +1,12 @@
 package com.example.tour.activity;
 
-
 import com.example.tour.place.Place;
 import lombok.NoArgsConstructor;
 
-import com.example.tour.Place;
-
-
 import javax.persistence.*;
 
-@Entity
-@Table
+@Entity(name = "activity")
+@Table(name = "activity")
 
 @NoArgsConstructor
 
@@ -27,7 +23,6 @@ public class Activity {
             strategy = GenerationType.SEQUENCE,
             generator = "activity_sequence"
     )
-
 
     @Column(name = "id", updatable = false)
     private Long id;
@@ -51,6 +46,7 @@ public class Activity {
     public Activity(String info, Place place) {
         this.info = info;
         this.place = place;
+        place.addActivity(this);
 
         // Created by Contributor; needs to be approved by Admin
         this.isActive = false;

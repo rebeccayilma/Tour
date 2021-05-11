@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity(name="Place")
 @Table(name = "place",
-uniqueConstraints = {@UniqueConstraint(name="place_name_uniqe", columnNames = "name")}
+uniqueConstraints = {@UniqueConstraint(name="place_name_unique", columnNames = "name")}
 
 )
 public class Place {
@@ -38,10 +38,7 @@ public class Place {
     @Column(name = "longitude")
     private double longitude;
     @Column(name = "description")
-
     private String description;
-    //Here it will depend on the Activity model
-    //TO DO
 
     @OneToMany(
             fetch = FetchType.EAGER,
@@ -58,5 +55,13 @@ public class Place {
         this.longitude = longitude;
         this.description = description;
         //this.activities = new ArrayList<>();
+    }
+
+    public void addActivity(Activity activity) {
+        this.activities.add(activity);
+    }
+
+    public List<Activity> getActivities() {
+        return activities;
     }
 }
