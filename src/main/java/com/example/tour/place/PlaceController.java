@@ -1,6 +1,6 @@
 package com.example.tour.place;
 
-import com.example.tour.activity.Activity;
+import com.example.tour.TransformerUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -8,13 +8,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "api/place")
-
 public class PlaceController {
-    private final PlaceService placeService;
     @Autowired
-    public PlaceController(PlaceService placeService) {
-        this.placeService = placeService;
-    }
+    private PlaceService placeService;
 
     @GetMapping
     public List<Place> getPlaces(){
@@ -22,8 +18,8 @@ public class PlaceController {
     }
 
     @GetMapping(path = "{placeId}")
-    public Place getPlace(@PathVariable("placeId") Long placeId){
-        return placeService.getPlace(placeId);
+    public PlaceDTO getPlace(@PathVariable("placeId") Long placeId){
+        return TransformerUtils.createPlaceDTO(placeService.getPlace(placeId));
     }
 
     @PostMapping
