@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("activity")
+@RequestMapping("api/activity")
 public class ActivityController {
     private ActivityService activityService;
 

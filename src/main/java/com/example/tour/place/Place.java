@@ -1,11 +1,14 @@
 package com.example.tour.place;
 
+import com.example.tour.activity.Activity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -13,7 +16,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity(name="place")
 @Table(name = "place",
-uniqueConstraints = {@UniqueConstraint(name="place_name_uniqe", columnNames = "name")}
+uniqueConstraints = {@UniqueConstraint(name="place_name_unique", columnNames = "name")}
 
 )
 public class Place {
@@ -35,23 +38,24 @@ public class Place {
     @Column(name = "longitude")
     private double longitude;
     @Column(name = "description")
-
     private String description;
-    //Here it will depend on the Activity model
-    //TO DO
 
-    @OneToMany
-    @JoinColumn(
-            name = "activity_id",
-            referencedColumnName = "id"
-    )
+    @OneToMany(mappedBy = "place")
     private List<Activity> activities;
 
-    public Place(String name, double latitude, double longitude, String description List<Activity> activities) {
+    public Place(String name, double latitude, double longitude, String description) {
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
         this.description = description;
-        this.activities = activities;
+        this.activities = new ArrayList<>();
+    }
+
+    public void addActivity(Activity activity) {
+        this.activities.add(activity);
+    }
+
+    public List<Activity> getActivities() {
+        return activities;
     }
 }
