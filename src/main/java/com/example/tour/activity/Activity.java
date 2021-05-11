@@ -1,24 +1,33 @@
 package com.example.tour.activity;
 
+
 import com.example.tour.place.Place;
 import lombok.NoArgsConstructor;
+
+import com.example.tour.Place;
+
 
 import javax.persistence.*;
 
 @Entity
 @Table
+
 @NoArgsConstructor
+
 public class Activity {
+    @Id
+
     @SequenceGenerator(
             name = "activity_sequence",
             sequenceName = "activity_sequence",
             allocationSize = 1
     )
-    @Id
+  
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
             generator = "activity_sequence"
     )
+
 
     @Column(name = "id", updatable = false)
     private Long id;
@@ -36,6 +45,7 @@ public class Activity {
                     name = "place_activity_fk"
             )
     )
+
     private Place place;
 
     public Activity(String info, Place place) {
