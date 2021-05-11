@@ -1,7 +1,12 @@
 package com.example.tour.activity;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
 public class ActivityService {
     private final ActivityRepository activityRepository;
 
@@ -19,5 +24,9 @@ public class ActivityService {
                 () -> new IllegalStateException("Activity with id " + activityId + " does not exist")
         );
         return activity;
+    }
+
+    public List<Activity> getInActiveActivities() {
+        return activityRepository.findAll().stream().filter(a -> !a.isActive()).collect(Collectors.toList());
     }
 }

@@ -1,6 +1,6 @@
 package com.example.tour.activity;
 
-import com.example.tour.Place;
+import com.example.tour.place.Place;
 
 import javax.persistence.*;
 
@@ -17,10 +17,15 @@ public class Activity {
             strategy = GenerationType.SEQUENCE,
             generator = "activity_sequence"
     )
+    private Long Id;
 
     private String info;
     private boolean isActive;
+    @Transient
     private Place place;
+
+    public Activity() {
+    }
 
     public Activity(String info, Place place) {
         this.info = info;

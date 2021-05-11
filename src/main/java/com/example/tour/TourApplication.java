@@ -7,22 +7,24 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.List;
+
 @SpringBootApplication
 public class TourApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(TourApplication.class, args);
     }
+
     @Bean
-CommandLineRunner commandLineRunner(PlaceRepository placeRepository){
+    CommandLineRunner commandLineRunner(PlaceRepository placeRepository){
         return args -> {
             Place us = new Place("USAYU", 62.356, 56.358, "Fairfield and Iowa" );
             Place su = new Place("Canada", 58.356, 85.358, "New Place to b visited" );
 
-            //placeRepository.saveAll(List.of(us,su));
-            placeRepository.findPlaceByName("USAYU")
+            placeRepository.saveAll(List.of(us,su));
+            placeRepository.findPlaceByName("USAYU").stream().findFirst()
             .ifPresentOrElse(System.out::println, ()->System.out.println("Place is Not found"));
-
-};
-}
+        };
+    }
 }

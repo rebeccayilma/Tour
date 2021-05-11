@@ -1,26 +1,29 @@
 package com.example.tour.place;
 
+import com.example.tour.activity.Activity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
-@Entity(name="place")
+@Entity(name = "place")
 @Table(name = "place",
-uniqueConstraints = {@UniqueConstraint(name="place_name_uniqe", columnNames = "name")}
+        uniqueConstraints = {@UniqueConstraint(name = "place_name_unique", columnNames = "name")}
 
 )
 public class Place {
     @Id
     @SequenceGenerator(name = "place_sequence",
-    sequenceName = "place_sequence",
-    allocationSize = 1)
+            sequenceName = "place_sequence",
+            allocationSize = 1
+    )
 
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
@@ -40,18 +43,17 @@ public class Place {
     //Here it will depend on the Activity model
     //TO DO
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(
-            name = "activity_id",
+            name = "place_id",
             referencedColumnName = "id"
     )
     private List<Activity> activities;
 
-    public Place(String name, double latitude, double longitude, String description List<Activity> activities) {
+    public Place(String name, double latitude, double longitude, String description) {
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
         this.description = description;
-        this.activities = activities;
     }
 }
