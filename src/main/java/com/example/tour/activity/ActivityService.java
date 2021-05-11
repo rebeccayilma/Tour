@@ -29,4 +29,13 @@ public class ActivityService {
     public List<Activity> getInActiveActivities() {
         return activityRepository.findAll().stream().filter(a -> !a.isActive()).collect(Collectors.toList());
     }
+
+    public void deactivateActivity(Long activityId) {
+        Activity activity = activityRepository.findById(activityId).orElseThrow(
+                () -> new IllegalStateException("Activity with id " + activityId + " does not exist")
+        );
+
+        activity.setActive(false);
+        activityRepository.save(activity);
+    }
 }
