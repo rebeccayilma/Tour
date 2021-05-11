@@ -23,6 +23,7 @@ public class Activity {
             strategy = GenerationType.SEQUENCE,
             generator = "activity_sequence"
     )
+    private Long Id;
 
     @Column(name = "id", updatable = false)
     private Long id;
@@ -42,6 +43,9 @@ public class Activity {
     )
 
     private Place place;
+
+    public Activity() {
+    }
 
     public Activity(String info, Place place) {
         this.info = info;

@@ -17,6 +17,7 @@ public class TourApplication {
     public static void main(String[] args) {
         SpringApplication.run(TourApplication.class, args);
     }
+
     @Bean
 CommandLineRunner commandLineRunner(PlaceRepository placeRepository, ActivityRepository activityRepository){
         return args -> {

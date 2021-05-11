@@ -3,6 +3,8 @@ package com.example.tour.activity;
 import com.example.tour.place.Place;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -15,6 +17,7 @@ public class ActivityTests {
         Place place = new Place("thisPlace", 12.32, 13.45, "Welcome to Nigeria");
         String activityInfo = "Great activity";
         Activity activity = new Activity(activityInfo, place);
+        // place.setActivities(List.of(activity)); // done on constructor
 
         assertNotNull(place);
         assertNotNull(place.getActivities());

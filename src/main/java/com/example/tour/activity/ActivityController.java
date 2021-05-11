@@ -3,9 +3,10 @@ package com.example.tour.activity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/activity")
-
 public class ActivityController {
     private ActivityService activityService;
 
@@ -23,6 +24,12 @@ public class ActivityController {
     public void proposeNewActivity(@RequestBody Activity activity) {
         if (activity == null || activity.isActive()) return;
         activityService.addNewActivity(activity);
+    }
+
+    //TODO: make accessible only to admins
+    @GetMapping(path = "inactive")
+    public List<Activity> listInActiveActivities() {
+        return activityService.getInActiveActivities();
     }
 
 }

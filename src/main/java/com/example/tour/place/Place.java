@@ -15,15 +15,16 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 @Entity(name="Place")
-@Table(name = "place",
-uniqueConstraints = {@UniqueConstraint(name="place_name_unique", columnNames = "name")}
-
+@Table(
+        name = "place",
+        uniqueConstraints = {@UniqueConstraint(name="place_name_unique", columnNames = "name")}
 )
 public class Place {
     @Id
     @SequenceGenerator(name = "place_sequence",
-    sequenceName = "place_sequence",
-    allocationSize = 1)
+            sequenceName = "place_sequence",
+            allocationSize = 1
+    )
 
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
@@ -46,7 +47,6 @@ public class Place {
             orphanRemoval = true,
             cascade = {CascadeType.PERSIST,CascadeType.REMOVE}
     )
-
     private List<Activity> activities = new ArrayList<>();
 
     public Place(String name, double latitude, double longitude, String description) {
