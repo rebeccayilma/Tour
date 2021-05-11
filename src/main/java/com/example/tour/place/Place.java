@@ -1,17 +1,20 @@
 package com.example.tour.place;
 
+import com.example.tour.activity.Activity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
-@Entity(name="place")
+@Entity(name="Place")
 @Table(name = "place",
 uniqueConstraints = {@UniqueConstraint(name="place_name_uniqe", columnNames = "name")}
 
@@ -40,18 +43,20 @@ public class Place {
     //Here it will depend on the Activity model
     //TO DO
 
-    @OneToMany
-    @JoinColumn(
-            name = "activity_id",
-            referencedColumnName = "id"
+    @OneToMany(
+            fetch = FetchType.EAGER,
+            mappedBy = "place",
+            orphanRemoval = true,
+            cascade = {CascadeType.PERSIST,CascadeType.REMOVE}
     )
-    private List<Activity> activities;
 
-    public Place(String name, double latitude, double longitude, String description List<Activity> activities) {
+    private List<Activity> activities = new ArrayList<>();
+
+    public Place(String name, double latitude, double longitude, String description) {
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
         this.description = description;
-        this.activities = activities;
+        //this.activities = new ArrayList<>();
     }
 }
