@@ -1,11 +1,13 @@
 package com.example.tour.activity;
 
-import com.example.tour.Place;
+import com.example.tour.place.Place;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Table
+@NoArgsConstructor
 public class Activity {
     @Id
     @SequenceGenerator(
@@ -20,6 +22,7 @@ public class Activity {
 
     private String info;
     private boolean isActive;
+    @ManyToOne
     private Place place;
 
     public Activity(String info, Place place) {

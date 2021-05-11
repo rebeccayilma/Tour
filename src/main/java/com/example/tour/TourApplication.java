@@ -16,8 +16,8 @@ public class TourApplication {
     @Bean
 CommandLineRunner commandLineRunner(PlaceRepository placeRepository){
         return args -> {
-            Place us = new Place("USAYU", 62.356, 56.358, "Fairfield and Iowa" );
-            Place su = new Place("Canada", 58.356, 85.358, "New Place to b visited" );
+//            Place us = new Place("USAYU", 62.356, 56.358, "Fairfield and Iowa" );
+//            Place su = new Place("Canada", 58.356, 85.358, "New Place to b visited" );
 
             //placeRepository.saveAll(List.of(us,su));
             placeRepository.findPlaceByName("USAYU")
