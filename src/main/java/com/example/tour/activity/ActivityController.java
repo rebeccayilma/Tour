@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/activity")
+
 public class ActivityController {
     private ActivityService activityService;
 

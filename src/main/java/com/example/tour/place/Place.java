@@ -14,7 +14,7 @@ import java.util.List;
 @Setter
 @ToString
 @NoArgsConstructor
-@Entity(name="place")
+@Entity(name="Place")
 @Table(name = "place",
 uniqueConstraints = {@UniqueConstraint(name="place_name_unique", columnNames = "name")}
 
@@ -40,15 +40,21 @@ public class Place {
     @Column(name = "description")
     private String description;
 
-    @OneToMany(mappedBy = "place")
-    private List<Activity> activities;
+    @OneToMany(
+            fetch = FetchType.EAGER,
+            mappedBy = "place",
+            orphanRemoval = true,
+            cascade = {CascadeType.PERSIST,CascadeType.REMOVE}
+    )
+
+    private List<Activity> activities = new ArrayList<>();
 
     public Place(String name, double latitude, double longitude, String description) {
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
         this.description = description;
-        this.activities = new ArrayList<>();
+        //this.activities = new ArrayList<>();
     }
 
     public void addActivity(Activity activity) {

@@ -1,18 +1,24 @@
 package com.example.tour.activity;
 
 import com.example.tour.place.Place;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity(name = "activity")
 @Table(name = "activity")
+
+@NoArgsConstructor
+
 public class Activity {
     @Id
+
     @SequenceGenerator(
             name = "activity_sequence",
             sequenceName = "activity_sequence",
             allocationSize = 1
     )
+  
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
             generator = "activity_sequence"
@@ -24,13 +30,17 @@ public class Activity {
     private String info;
     @Column(name = "isActive", columnDefinition = "boolean default false")
     private boolean isActive;
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne (
+    cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER)
     @JoinColumn(
             name = "place_id",
             referencedColumnName = "id",
-            nullable = false
+            foreignKey = @ForeignKey(
+                    name = "place_activity_fk"
+            )
     )
+
     private Place place;
 
     public Activity(String info, Place place) {
