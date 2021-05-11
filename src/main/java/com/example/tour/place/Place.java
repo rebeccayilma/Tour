@@ -1,19 +1,15 @@
 package com.example.tour.place;
 
 import com.example.tour.activity.Activity;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
-@ToString
+@Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity(name="Place")
 @Table(
         name = "place",
@@ -21,11 +17,11 @@ import java.util.List;
 )
 public class Place {
     @Id
-    @SequenceGenerator(name = "place_sequence",
+    @SequenceGenerator(
+            name = "place_sequence",
             sequenceName = "place_sequence",
             allocationSize = 1
     )
-
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
             generator = "place_sequence"

@@ -1,5 +1,6 @@
 package com.example.tour.activity;
 
+import com.example.tour.TransformerUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,8 +17,8 @@ public class ActivityController {
     }
 
     @GetMapping(path = "{activityId}")
-    public Activity getActivity(@PathVariable("activityId") Long activityId) {
-        return activityService.getActivity(activityId);
+    public ActivityDTO getActivity(@PathVariable("activityId") Long activityId) {
+        return TransformerUtils.createActivityDTO(activityService.getActivity(activityId));
     }
 
     @PostMapping
