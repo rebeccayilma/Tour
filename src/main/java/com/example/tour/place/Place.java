@@ -7,16 +7,17 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
-@Entity(name = "place")
-@Table(name = "place",
-        uniqueConstraints = {@UniqueConstraint(name = "place_name_unique", columnNames = "name")}
-
+@Entity(name="Place")
+@Table(
+        name = "place",
+        uniqueConstraints = {@UniqueConstraint(name="place_name_unique", columnNames = "name")}
 )
 public class Place {
     @Id
@@ -38,22 +39,29 @@ public class Place {
     @Column(name = "longitude")
     private double longitude;
     @Column(name = "description")
-
     private String description;
-    //Here it will depend on the Activity model
-    //TO DO
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(
-            name = "place_id",
-            referencedColumnName = "id"
+    @OneToMany(
+            fetch = FetchType.EAGER,
+            mappedBy = "place",
+            orphanRemoval = true,
+            cascade = {CascadeType.PERSIST,CascadeType.REMOVE}
     )
-    private List<Activity> activities;
+    private List<Activity> activities = new ArrayList<>();
 
     public Place(String name, double latitude, double longitude, String description) {
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
         this.description = description;
+        //this.activities = new ArrayList<>();
+    }
+
+    public void addActivity(Activity activity) {
+        this.activities.add(activity);
+    }
+
+    public List<Activity> getActivities() {
+        return activities;
     }
 }
