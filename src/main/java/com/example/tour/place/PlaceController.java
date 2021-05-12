@@ -13,8 +13,8 @@ public class PlaceController {
     private PlaceService placeService;
 
     @GetMapping
-    public List<Place> getPlaces(){
-        return placeService.getPlaces();
+    public List<PlaceDTO> getPlaces(){
+        return TransformerUtils.createListPlaceDTO(placeService.getPlaces());
     }
 
     @GetMapping(path = "{placeId}")
