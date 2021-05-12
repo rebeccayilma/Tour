@@ -33,4 +33,10 @@ public class ActivityController {
         return activityService.getInActiveActivities();
     }
 
+
+    @GetMapping(path = "active")
+    public List<Activity> listActiveActivities() {
+        return activityService.getActiveActivities();
+    }
+
 }
