@@ -38,4 +38,13 @@ public class ActivityService {
         );
         activity.setActive(true);
     }
+
+    @Transactional
+    public void deactivateActivity(Long activityId) {
+        Activity activity = activityRepository.findById(activityId).orElseThrow(
+                () -> new IllegalStateException("Activity with id " + activityId + " does not exist")
+        );
+
+        activity.setActive(false);
+    }
 }
