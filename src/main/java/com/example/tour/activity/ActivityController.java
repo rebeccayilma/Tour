@@ -33,4 +33,10 @@ public class ActivityController {
         return activityService.getInActiveActivities();
     }
 
+    //TODO: make accessible only to admins
+    @GetMapping(path = "deactivate/{activityId}")
+    public void deactivateActivity(@PathVariable("activityId") Long activityId) {
+        activityService.deactivateActivity(activityId);
+    }
+
 }
