@@ -24,6 +24,7 @@ public class Rating {
     )
     @Column(name = "id", updatable = false)
     private Long id;
+    @Column(name = "date")
     private LocalDate date;
     @Column(name = "score", updatable = false, nullable = false)
     private int score;

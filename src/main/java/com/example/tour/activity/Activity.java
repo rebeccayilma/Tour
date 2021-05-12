@@ -26,7 +26,7 @@ public class Activity {
     )
     @Column(name = "id", updatable = false)
     private Long id;
-    @Column(name = "info", columnDefinition = "TEXT")
+    @Column(name = "info", columnDefinition = "TEXT", nullable = false)
 
     private String info;
 

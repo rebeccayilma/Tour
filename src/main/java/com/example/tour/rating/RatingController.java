@@ -8,7 +8,7 @@ import java.util.List;
 
 @RestController
 
-@RequestMapping("/activities/ratings")
+@RequestMapping("/api/rating")
 public class RatingController {
     private final RatingService ratingService;
 
@@ -23,7 +23,8 @@ public class RatingController {
 
     @PostMapping
     public void addNewRating(@RequestBody Rating rating) {
-         ratingService.addNewRating(rating);
+        System.out.println(rating);
+        ratingService.addNewRating(rating);
     }
 
 }
