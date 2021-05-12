@@ -50,10 +50,7 @@ public class Activity {
             mappedBy = "activity",
             orphanRemoval = true,
             cascade = CascadeType.ALL
-            //cascade = {CascadeType.PERSIST,CascadeType.REMOVE}
     )
-//    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "activity")
-//    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Rating> rating = new ArrayList<>();
 
     public Activity(String info, Place place) {
