@@ -4,6 +4,8 @@ import com.example.tour.activity.Activity;
 import com.example.tour.activity.ActivityDTO;
 import com.example.tour.place.Place;
 import com.example.tour.place.PlaceDTO;
+import com.example.tour.rating.Rating;
+import com.example.tour.rating.RatingDTO;
 import org.springframework.beans.BeanUtils;
 
 import java.util.ArrayList;
@@ -23,6 +25,13 @@ public class TransformerUtils {
 
         return activityDTO;
     }
+    public static RatingDTO createRatingDTO(Rating rating) {
+        RatingDTO ratingDTO = new RatingDTO();
+        BeanUtils.copyProperties(rating, ratingDTO, "activity");
+        ratingDTO.setActivity(createActivityDTO(rating.getActivity()));
+
+        return ratingDTO;
+    }
 
     public static List<ActivityDTO> createListActivityDTO(List<Activity> inActiveActivities) {
         List<ActivityDTO> activityList = new ArrayList<>();
@@ -30,6 +39,13 @@ public class TransformerUtils {
             activityList.add(createActivityDTO(activity));
         });
         return activityList;
+    }
+    public static List<RatingDTO> createListRatingDTO(List<Rating> ratings) {
+        List<RatingDTO> ratingList = new ArrayList<>();
+        ratings.forEach(rating -> {
+            ratingList.add(createRatingDTO(rating));
+        });
+        return ratingList;
     }
 
     public static List<PlaceDTO> createListPlaceDTO(List<Place> places) {
