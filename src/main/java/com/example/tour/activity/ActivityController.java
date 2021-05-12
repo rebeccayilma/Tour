@@ -35,8 +35,8 @@ public class ActivityController {
 
     //TODO: make accessible only to admins
     @GetMapping(path = "inactive")
-    public List<Activity> listInActiveActivities() {
-        return activityService.getInActiveActivities();
+    public List<ActivityDTO> listInActiveActivities() {
+        return TransformerUtils.createListActivityDTO(activityService.getInActiveActivities());
     }
 
     //TODO: make accessible only to admins
