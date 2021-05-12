@@ -3,6 +3,7 @@ package com.example.tour.activity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,12 +31,20 @@ public class ActivityService {
         return activityRepository.findAll().stream().filter(a -> !a.isActive()).collect(Collectors.toList());
     }
 
+    @Transactional
+    public void approveActivity(Long activityId) {
+        Activity activity = activityRepository.findById(activityId).orElseThrow(
+                () -> new IllegalStateException("Activity with id " + activityId + " does not exist")
+        );
+        activity.setActive(true);
+    }
+
+    @Transactional
     public void deactivateActivity(Long activityId) {
         Activity activity = activityRepository.findById(activityId).orElseThrow(
                 () -> new IllegalStateException("Activity with id " + activityId + " does not exist")
         );
 
         activity.setActive(false);
-        activityRepository.save(activity);
     }
 }
