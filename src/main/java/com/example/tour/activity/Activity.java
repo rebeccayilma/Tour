@@ -26,7 +26,7 @@ public class Activity {
     )
     @Column(name = "id", updatable = false)
     private Long id;
-    @Column(name = "info", columnDefinition = "TEXT", nullable = false)
+    @Column(name = "info", columnDefinition = "TEXT")
 
     private String info;
 
@@ -51,7 +51,15 @@ public class Activity {
             orphanRemoval = true,
             cascade = CascadeType.ALL
     )
-    private List<Rating> rating = new ArrayList<>();
+    private List<Rating> ratings = new ArrayList<>();
+
+    public void addRating(Rating rating){
+            this.ratings.add(rating);
+
+    }
+    public List<Rating> getRatings() {
+        return ratings;
+    }
 
     public Activity(String info, Place place) {
         this.info = info;

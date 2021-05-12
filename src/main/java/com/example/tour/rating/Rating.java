@@ -20,39 +20,39 @@ public class Rating {
     )
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
-            generator = "activity_sequence"
+            generator = "rating_sequence"
     )
     @Column(name = "id", updatable = false)
     private Long id;
     private LocalDate date;
+    @Column(name = "score", updatable = false, nullable = false)
     private int score;
 
     @ManyToOne (
-            fetch = FetchType.EAGER
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL
+
     )
 
     @JoinColumn(
             name = "activity_id",
-            nullable = false,
             referencedColumnName = "id",
+            nullable = false,
             foreignKey = @ForeignKey(
                     name = "rating_activity_fk"
             )
 
     )
+
     private Activity activity;
 
-    public void setActivity(Activity activity) {
-        this.activity = activity;
-    }
-
-     //TODO: Person RelationShip
+        //TODO: Person RelationShip
         //private Person person;
 
     public Rating(LocalDate date, int score, Activity activity) {
         this.date = date;
         this.score = score;
-        this.activity = activity;
+        activity.addRating(this);
     }
 
 

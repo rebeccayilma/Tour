@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/rating/")
 
+@RequestMapping("/activities/ratings")
 public class RatingController {
     private final RatingService ratingService;
 
@@ -16,9 +16,9 @@ public class RatingController {
     public RatingController(RatingService ratingService) {
         this.ratingService = ratingService;
     }
-    @GetMapping({"activity_id"})
-    public List<RatingDTO> getAllRating(@PathVariable("activity_id") Long activity_id){
-        return TransformerUtils.createListRatingDTO(ratingService.getRatings(activity_id));
+    @GetMapping("{activity_id}")
+    public List<RatingDTO> getAllRating(@PathVariable(value = "activity_id") Long activityId){
+        return TransformerUtils.createListRatingDTO(ratingService.getRatings(activityId));
     }
 
     @PostMapping
