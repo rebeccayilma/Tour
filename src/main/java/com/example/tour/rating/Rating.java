@@ -1,15 +1,12 @@
 package com.example.tour.rating;
 
 import com.example.tour.activity.Activity;
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 @NoArgsConstructor
-@EqualsAndHashCode
-@ToString
-@Getter
-@Setter
 @Data
 @Entity(name = "rating")
 @Table(name = "rating")
@@ -31,7 +28,6 @@ public class Rating {
     private int score;
 
     @ManyToOne (
-            //cascade = CascadeType.ALL,
             fetch = FetchType.EAGER
     )
 
@@ -50,8 +46,8 @@ public class Rating {
         this.activity = activity;
     }
 
-
-//private Person person;
+     //TODO: Person RelationShip
+        //private Person person;
 
     public Rating(LocalDate date, int score, Activity activity) {
         this.date = date;

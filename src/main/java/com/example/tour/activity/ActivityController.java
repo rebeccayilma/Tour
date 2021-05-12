@@ -9,7 +9,7 @@ import java.util.List;
 @RestController
 @RequestMapping("api/activity")
 public class ActivityController {
-    private final ActivityService activityService;
+    private ActivityService activityService;
 
     @Autowired
     public ActivityController(ActivityService activityService) {

@@ -14,8 +14,8 @@ public class RatingService  {
         this.ratingRepository = ratingRepository;
 
     }
-    public List<Rating> getRatings(){
-        return ratingRepository.findAll();
+    public List<Rating> getRatings(Long activity_id){
+        return ratingRepository.findAllByActivity_Id(activity_id);
     }
     public void addNewRating(Rating rating) {
         ratingRepository.save(rating);
