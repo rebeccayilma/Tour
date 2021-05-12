@@ -27,6 +27,11 @@ public class ActivityController {
         activityService.addNewActivity(activity);
     }
 
+    @PutMapping(path = "approve/{activityId}")
+    public void approveActivity(@PathVariable("activityId") Long activityId) {
+        activityService.approveActivity(activityId);
+    }
+
     //TODO: make accessible only to admins
     @GetMapping(path = "inactive")
     public List<Activity> listInActiveActivities() {
