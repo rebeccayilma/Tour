@@ -14,6 +14,7 @@ public class PlaceController {
 
     @GetMapping
     public List<PlaceDTO> getPlaces(){
+
         return TransformerUtils.createListPlaceDTO(placeService.getPlaces());
     }
 

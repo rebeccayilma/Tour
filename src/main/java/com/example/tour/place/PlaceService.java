@@ -13,12 +13,11 @@ public class PlaceService {
     @Autowired
     public PlaceService(PlaceRepository placeRepository){
         this.placeRepository = placeRepository;
-
     }
+
     public List<Place> getPlaces(){
         return placeRepository.findAll();
     }
-
 
     public void addNewPlace(Place place) {
         placeRepository.save(place);
