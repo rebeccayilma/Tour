@@ -36,8 +36,12 @@ public class ActivityService {
         return activity;
     }
 
-    public List<Activity> getInActiveActivities() {
+    public List<Activity> getInactiveActivities() {
         return activityRepository.findAllByIsActive(false);
+    }
+
+    public List<Activity> getActiveActivities() {
+        return activityRepository.findAllByIsActive(true);
     }
 
     @Transactional

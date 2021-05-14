@@ -28,22 +28,24 @@ public class ActivityController {
         activityService.addNewActivity(activity);
     }
 
-    //TODO: make accessible only to admins
     @PutMapping(path = "approve/{activityId}")
     public void approveActivity(@PathVariable("activityId") Long activityId) {
         activityService.approveActivity(activityId);
     }
 
-    //TODO: make accessible only to admins
     @GetMapping(path = "inactive")
     public List<ActivityDTO> listInActiveActivities() {
-        return TransformerUtils.createListActivityDTO(activityService.getInActiveActivities());
+        return TransformerUtils.createListActivityDTO(activityService.getInactiveActivities());
     }
 
-    //TODO: make accessible only to admins
     @PutMapping(path = "deactivate/{activityId}")
     public void deactivateActivity(@PathVariable("activityId") Long activityId) {
         activityService.deactivateActivity(activityId);
+    }
+
+    @GetMapping(path = "active")
+    public List<ActivityDTO> listActiveActivities() {
+        return TransformerUtils.createListActivityDTO(activityService.getActiveActivities());
     }
 
 }

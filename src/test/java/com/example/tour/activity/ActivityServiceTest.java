@@ -106,7 +106,7 @@ class ActivityServiceTest {
     @Test
     void canGetInActiveActivities() {
         // setup
-        activityService.getInActiveActivities();
+        activityService.getInactiveActivities();
 
         //assertion
         verify(activityRepository).findAllByIsActive(false);
