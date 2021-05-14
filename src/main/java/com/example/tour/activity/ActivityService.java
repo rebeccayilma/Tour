@@ -36,12 +36,13 @@ public class ActivityService {
         return activity;
     }
 
-    public List<Activity> getInActiveActivities() {
+    public List<Activity> getInactiveActivities() {
         return activityRepository.findAllByIsActive(false);
     }
 
     public List<Activity> getActiveActivities() {
-        return activityRepository.findAll().stream().filter(a -> a.isActive()).collect(Collectors.toList());
+        return activityRepository.findAllByIsActive(true);
+    }
 
     @Transactional
     public void approveActivity(Long activityId) {
