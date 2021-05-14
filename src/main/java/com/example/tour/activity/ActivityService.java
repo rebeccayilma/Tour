@@ -37,7 +37,7 @@ public class ActivityService {
     }
 
     public List<Activity> getInActiveActivities() {
-        return activityRepository.findAll().stream().filter(a -> !a.isActive()).collect(Collectors.toList());
+        return activityRepository.findAllByIsActive(false);
     }
 
     @Transactional
