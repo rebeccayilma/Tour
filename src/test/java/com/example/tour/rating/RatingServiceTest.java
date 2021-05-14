@@ -54,6 +54,7 @@ private ActivityService activityService;
                 10.0,
                 20.0,
                 "description",
+                new ArrayList<>(),
                 new ArrayList<>());
         activity = new Activity("info", place);
         when(placeRepository.findById(anyLong()))

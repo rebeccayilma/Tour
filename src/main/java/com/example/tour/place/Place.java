@@ -1,6 +1,7 @@
 package com.example.tour.place;
 
 import com.example.tour.activity.Activity;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -43,14 +44,21 @@ public class Place {
             orphanRemoval = true,
             cascade = {CascadeType.PERSIST,CascadeType.REMOVE}
     )
+    @JsonManagedReference
     private List<Activity> activities = new ArrayList<>();
+    @OneToMany(
+            mappedBy = "place",
+            orphanRemoval = true,
+            cascade = {CascadeType.PERSIST,CascadeType.REMOVE}
+    )
+    @JsonManagedReference
+    private List<Image> images = new ArrayList<>();
 
     public Place(String name, double latitude, double longitude, String description) {
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
         this.description = description;
-        //this.activities = new ArrayList<>();
     }
 
     public void addActivity(Activity activity) {
@@ -59,5 +67,13 @@ public class Place {
 
     public List<Activity> getActivities() {
         return activities;
+    }
+
+    public List<Image> getImages() {
+        return images;
+    }
+
+    public void addImage(Image image) {
+        this.images.add(image);
     }
 }

@@ -1,8 +1,12 @@
 package com.example.tour.activity;
 
 import com.example.tour.place.PlaceDTO;
+import com.example.tour.rating.Rating;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 public class ActivityDTO {
@@ -14,4 +18,9 @@ public class ActivityDTO {
     private boolean isActive;
     @JsonProperty(value= "place")
     private PlaceDTO place;
+    @JsonProperty(value= "image_path")
+    private String imagePath;
+    @JsonProperty(value= "ratings")
+    private List<Rating> ratings;
+
 }
