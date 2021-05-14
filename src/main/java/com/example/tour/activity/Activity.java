@@ -62,6 +62,9 @@ public class Activity {
     }
 
     public Activity(String info, Place place) {
+        if (info == null) throw new IllegalArgumentException("Info of activity must not be null");
+        if (place == null) throw new IllegalArgumentException("Place where activity is located must not be null");
+
         this.info = info;
         this.place = place;
         place.addActivity(this);
