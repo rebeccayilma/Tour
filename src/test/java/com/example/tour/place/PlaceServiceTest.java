@@ -8,7 +8,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class PlaceServiceTest {
@@ -38,5 +40,15 @@ class PlaceServiceTest {
         Place capturedPlace = placeArgumentCaptor.getValue();
         assertThat(capturedPlace).isEqualTo(place);
     }
+    @Test
+    void canGetPlace() {
+        // setup
+        Place place = new Place();
 
+        when(placeRepository.findById(anyLong())).thenReturn(java.util.Optional.ofNullable(place));
+        underTest.getPlace(1L);
+
+        // assertion
+        verify(placeRepository).findById(1L);
+    }
 }
