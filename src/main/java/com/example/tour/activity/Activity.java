@@ -1,10 +1,17 @@
 package com.example.tour.activity;
 
 import com.example.tour.place.Place;
+import com.example.tour.rating.Rating;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity(name = "activity")
 @Table(name = "activity")
@@ -38,9 +45,31 @@ public class Activity {
                     name = "place_activity_fk"
             )
     )
+    @JsonBackReference
     private Place place;
+    @OneToMany(
+            fetch = FetchType.EAGER,
+            mappedBy = "activity",
+            orphanRemoval = true,
+            cascade = CascadeType.ALL
+    )
+    private List<Rating> ratings = new ArrayList<>();
+    @Column(name = "image_path", columnDefinition = "TEXT")
+    private String imagePath;
+
+    public void addRating(Rating rating){
+            this.ratings.add(rating);
+
+    }
+    @JsonManagedReference
+    public List<Rating> getRatings() {
+        return ratings;
+    }
 
     public Activity(String info, Place place) {
+        if (info == null) throw new IllegalArgumentException("Info of activity must not be null");
+        if (place == null) throw new IllegalArgumentException("Place where activity is located must not be null");
+
         this.info = info;
         this.place = place;
         place.addActivity(this);

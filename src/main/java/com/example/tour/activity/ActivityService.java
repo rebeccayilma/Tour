@@ -1,5 +1,7 @@
 package com.example.tour.activity;
 
+import com.example.tour.place.Place;
+import com.example.tour.place.PlaceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,13 +12,20 @@ import java.util.stream.Collectors;
 @Service
 public class ActivityService {
     private final ActivityRepository activityRepository;
+    private final PlaceRepository placeRepository;
 
     @Autowired
-    public ActivityService(ActivityRepository activityRepository) {
+    public ActivityService(ActivityRepository activityRepository, PlaceRepository placeRepository) {
         this.activityRepository = activityRepository;
+        this.placeRepository = placeRepository;
     }
 
     public void addNewActivity(Activity activity) {
+        Long placeId = activity.getPlace().getId();
+        Place place = placeRepository.findById(placeId).orElseThrow(
+                () -> new IllegalStateException("No place with id " + placeId)
+        );
+        activity.setPlace(place);
         activityRepository.save(activity);
     }
 
@@ -27,8 +36,15 @@ public class ActivityService {
         return activity;
     }
 
-    public List<Activity> getInActiveActivities() {
-        return activityRepository.findAll().stream().filter(a -> !a.isActive()).collect(Collectors.toList());
+    public List<Activity> getInactiveActivities() {
+        return activityRepository.findAllByIsActive(false);
+    }
+
+    public List<Activity> getActiveActivities(Long placeId) {
+        return activityRepository.findAllByIsActive(true)
+                .stream()
+                .filter(activity -> activity.getPlace().getId().equals(placeId))
+                .collect(Collectors.toList());
     }
 
     @Transactional
