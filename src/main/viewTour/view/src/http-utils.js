@@ -5,7 +5,8 @@ export const ACTIVITY_URL = 'api/activity';
 export const REGISTER_URL = 'user/new';
 export const LOGIN_URL = 'login';
 
-export const RATINGS_URL = ACTIVITY_URL + 'ratings/';
+export const ACTIVE_ACTIVITY_URL = ACTIVITY_URL + '/active';
+export const RATINGS_URL = ACTIVITY_URL + '/ratings';
 
 export const COOKIES_URL = 'localhost';
 

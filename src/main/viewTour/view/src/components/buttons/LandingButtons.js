@@ -1,7 +1,7 @@
-export function ProposedActivitiesButton() {
+export function ProposedActivitiesButton(seeProposedActivities) {
     return (
         <div>
-            <a href={this.seeProposedActivities()}>See proposed activities</a>
+            <button onClick={() => seeProposedActivities()}>See proposed activities</button>
         </div>
     );
 }
@@ -9,7 +9,7 @@ export function ProposedActivitiesButton() {
 export function NewPlaceButton(addPlace) {
     return (
         <div>
-           <a href={addPlace}>Add place</a>
+           <button onClick={() => addPlace()}>Add place</button>
         </div>
     );
 }

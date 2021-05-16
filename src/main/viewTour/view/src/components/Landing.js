@@ -5,6 +5,7 @@ import { PLACEHOLDER_IMG_URL, BASE_URL, PLACE_URL } from '../http-utils';
 
 function Places(props) {
   const [listPlaces, setListPlaces] = useState([]);
+  const [loading, setLoading] = useState(true);
   const selectPlace = props.selectPlace;
 
   useEffect(() => {
@@ -18,15 +19,16 @@ function Places(props) {
         // });
         return (
           <div key={place.place_id}>
-            {/* TODO: add selectPlace(place) without automatic redirection */}
-            <h4>Place {place.name}</h4>
+            <h4 onClick={() => selectPlace(place)}>Place {place.name}</h4>
             {/* TODO: {listImages} */}
             <p>{place.description}</p>
             <button onClick={() => selectPlace(place)}>See place</button>
+            <br/>
+            <hr/>
           </div>
         );
       }));
-
+      setLoading(false);
     }).catch(err => {
       console.log("Cannot get places");
       console.log(err);
@@ -35,7 +37,7 @@ function Places(props) {
     
   }, [listPlaces]);
 
-  if (listPlaces.length === 0) {
+  if (loading) {
     return (
       <div>
         Loading...
@@ -50,13 +52,8 @@ function Places(props) {
   );
 }
 
-
-
-
-
 export function Landing(props) {
   const isAdmin = props.roles.some(role => role === 'ADMIN');
-  // const isContributor = props.roles.some(role => role === 'CONTRIBUTOR');
     
   const selectPlace = props.func.selectPlace;
 
@@ -68,13 +65,15 @@ export function Landing(props) {
     <div>
       <h1>Click on a place to see its activities.</h1>
       <hr/>
+      {isAdmin && (<NewPlaceButton addPlace={addPlace}/>)}
+      {isAdmin && (<ProposedActivitiesButton seeProposedActivities={seeProposedActivities}/>)}
+      <hr/>
       
       {/* Print each of places' pictures (carrousel, maybe) and names, linked to the single place profile */}
       <Places selectPlace={selectPlace} />
       <br/>
+      <hr/>
 
-      {isAdmin && (<NewPlaceButton addPlace={addPlace}/>)}
-      {isAdmin && (<ProposedActivitiesButton seeProposedActivities={seeProposedActivities}/>)}
       
     </div>
   )

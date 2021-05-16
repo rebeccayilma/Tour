@@ -41,7 +41,7 @@ export function LoginForm(props) {
         <label>Password</label>
         <input type="password" data-test="password" value={password} onChange={handlePassChange} />
 
-        <input type="submit" value="Log In" data-test="submit" />
+        <input type="submit" value="Submit" data-test="submit" />
       </form>
     </div>
   );

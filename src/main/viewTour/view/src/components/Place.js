@@ -1,37 +1,41 @@
 import React, { useState, useEffect } from 'react';
-import { ACTIVITY_URL } from '../http-utils';
+import { ACTIVE_ACTIVITY_URL } from '../http-utils';
 import axios from 'axios';
 
 function Activities(props) {
   const [listActivities, setListActivities] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   const selectActivity = props.selectActivity;
   const placeId = props.placeId;
 
   useEffect(() => {
-    axios.get(ACTIVITY_URL).then(res => {
+    axios.get(ACTIVE_ACTIVITY_URL).then(res => {
       setListActivities(res.data.map((activity, _) => {
         // TODO: this control MUST be done on backend, not here
         if (activity.place.place_id === placeId) { 
           return (
             <div key={activity.activity_id}>
-              <h4>Activity {activity.id}</h4>
+              <h4 onClick={() => selectActivity(activity)}>Activity {activity.id}</h4>
               {/* TODO: <img src={activity.image.path}/> */}
               <p>{activity.info}</p>
               <button onClick={() => selectActivity(activity)}>See activity</button>
+              <br/>
+              <hr/>
             </div>
           );
         }
       }));
-
+      setLoading(false);
     }).catch(err => {
       console.log("Cannot get activities of place " + placeId);
       console.log(err);
       return (<div>Error</div>);
     });
     
-  }, [listActivities]);
+  }, [loading]);
 
-  if (listActivities.length === 0) {
+  if (loading) {
     return (
       <div>
         Loading...
@@ -57,14 +61,14 @@ export function Place(props) {
   // });
 
   return(
+    <div>
       <div>
-          <div>
-            {/* TODO: {listImages} */}
-            <h2>{place.name}</h2>
-          </div>
-          <h3>Click on an activity to see its details</h3>
-          <hr/>
-          <Activities placeId={place.place_id}/>
+        {/* TODO: {listImages} */}
+        <h2>{place.name}</h2>
       </div>
+      <h3>Click on an activity to see its details</h3>
+      <hr/>
+      <Activities placeId={place.place_id}/>
+    </div>
   )
 }

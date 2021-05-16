@@ -88,12 +88,16 @@ function App() {
   }
 
   const addPlace = () => {
-    setPage('newPlace');
+    if (roles.some(role => role === 'ADMIN')) {
+      setPage('newPlace');
+    }
     // TODO
   }
 
   const seeProposedActivities = () => {
-    setPage('inactiveActivities');
+    if (roles.some(role => role === 'ADMIN')) {
+      setPage('inactiveActivities');
+    }
     // TODO
   }
 
@@ -103,13 +107,21 @@ function App() {
   }
 
   const clickSeeRatings = (activityId) => {
-    setPage('ratings');
+    if (roles.some(role => role === 'CONTRIBUTOR')) {
+      setPage('ratings');
+    }
     // TODO
   }
 
-  const clickRate = (activityId) => {
-    setPage('rateActivity');
+  const rate = () => {
+    if (roles.some(role => role === 'CONTRIBUTOR')) {
+      setPage('rateActivity');
+    }
     // TODO
+  }
+
+  const saveRating = (activityId) => {
+    // TODO: submit rating to backend
   }
 
   const headerFunctions = {
@@ -131,11 +143,11 @@ function App() {
 
   const activityFunctions = {
     'seeRatings': clickSeeRatings,
-    'rate': clickRate
+    'rate': rate
   }
 
   const ratingFunctions = {
-
+    'saveRating': saveRating
   }
 
   // ------------
