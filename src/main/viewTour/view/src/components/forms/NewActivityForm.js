@@ -10,7 +10,7 @@ export function NewActivityForm(props) {
 
         if (!info) {
             // TODO: inform error
-            // return this.setState({ error: 'Password is required' });
+            // return this.setState({ error: 'Info is required' });
             return;
         }
 

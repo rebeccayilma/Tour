@@ -5,12 +5,14 @@ export const ACTIVITY_URL = 'api/activity';
 export const REGISTER_URL = 'user/new';
 export const LOGIN_URL = 'login';
 
-export const ACTIVE_ACTIVITY_URL = ACTIVITY_URL + '/active';
+export const ACTIVE_ACTIVITY_URL = placeId => {return ACTIVITY_URL + '/' +  placeId + '/active';};
 export const INACTIVE_ACTIVITY_URL = ACTIVITY_URL + '/inactive';
 
 export const APPROVE_URL = (activityId) => {return ACTIVITY_URL + '/approve/' + activityId;}
 
-export const RATINGS_URL = ACTIVITY_URL + '/ratings';
+export const DEACTIVATE_URL = (activityId) => {return ACTIVITY_URL + '/deactivate/' + activityId;}
+
+export const RATINGS_URL = (activityId) => { return ACTIVITY_URL + '/rating/' + activityId};
 
 export const COOKIES_URL = 'localhost';
 

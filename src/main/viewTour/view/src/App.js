@@ -9,7 +9,11 @@ import { LoginForm } from './components/forms/AuthForm';
 import { NewActivityForm } from './components/forms/NewActivityForm';
 import { NewPlaceForm } from './components/forms/NewPlaceForm';
 import { NewRatingForm } from './components/forms/NewRatingForm';
-import { COOKIES_URL, REGISTER_URL, LOGIN_URL, APPROVE_URL, ACTIVITY_URL } from './http-utils';
+import { 
+  COOKIES_URL, REGISTER_URL, LOGIN_URL,
+  APPROVE_URL, ACTIVITY_URL, PLACE_URL,
+  RATINGS_URL, DEACTIVATE_URL 
+} from './http-utils';
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
 
@@ -22,6 +26,7 @@ const getUserRoles = (isLoggedIn) => {
   } : [];
 }
 
+
 function App() {
   const [page, setPage] = useState('landing');
   const [isLoggedIn, setLoggedIn] = useState(false);
@@ -29,6 +34,14 @@ function App() {
   const [place, setPlace] = useState({});
   const [activity, setActivity] = useState({});
   const [cookies, setCookie, removeCookie] = useCookies(['cookie-name']);
+  
+  const sendJWTConfig = () => {
+    return {
+      headers: {
+        "Authorization": cookies['JWT']
+      }
+    }
+  }
 
   const showLoginForm = () => {
     setPage("loginForm");
@@ -41,7 +54,7 @@ function App() {
   /* Logout */
   const logout = () => {
     setLoggedIn(false);
-    removeCookie('JWT', { path: COOKIES_URL }); // TODO: check correctness
+    removeCookie('JWT', { path: COOKIES_URL });
     setRoles(getUserRoles(false));
     setPage('landing');
   }
@@ -99,9 +112,24 @@ function App() {
   }
 
   const addPlace = (name, latitude, longitude, description) => {
-    if (roles.some(role => role === 'ADMIN')) {
-      setPage('newPlace');
-      // TODO: post place
+    if (roles.some(role => role === 'ADMIN')) {      
+      const newPlaceParams = {
+        "name": name,
+        "latitude": latitude,
+        "longitude": longitude,
+        "description": description
+      }
+
+      axios.post(PLACE_URL, newPlaceParams, sendJWTConfig()).then(res => {
+        // Create Place OK
+        console.log('success posting place');
+        // TODO: show pop-up message or sth saying that the place has been posted
+        setPage('landing');
+      }).catch(err => {
+        console.log("Cannot post place");
+        // TODO: show pop-up message or sth saying that there's been an error
+        console.log(err);
+      });
     }
   }
 
@@ -119,9 +147,24 @@ function App() {
   }
 
   const addActivity = (info, place) => {
-    if (roles.some(role => role === 'CONTRIBUTOR')) {
-      // TODO: post activity
-      setPage('landing');
+    if (roles.some(role => role === 'CONTRIBUTOR')) {      
+      const newActivityParams = {
+        "info": info,
+        "place": {
+          "id": place.place_id
+        }
+      }
+
+      axios.post(ACTIVITY_URL, newActivityParams, sendJWTConfig()).then(res => {
+        // Create Activity OK
+        console.log('success posting activity');
+        // TODO: show pop-up message or sth saying that the activity has been posted
+        selectPlace(place);
+      }).catch(err => {
+        console.log("Cannot post activity");
+        // TODO: show pop-up message or sth saying that there's been an error
+        console.log(err);
+      });
     }
   }
 
@@ -130,25 +173,36 @@ function App() {
     setPage('activity');
   }
 
-  const clickSeeRatings = (activityId) => {
+  const clickSeeRatings = (activity) => {
     if (roles.some(role => role === 'CONTRIBUTOR')) {
+      setActivity(activity);
       setPage('ratings');
     }
-    // TODO
   }
 
-  const approveActivity = (activityId) => {
+  const approveActivity = (activity) => {
+    const activityId = activity.activity_id;
     if (roles.some(role => role === 'ADMIN')) {
-      const config = {
-        headers: {
-          'Authorization': cookies['JWT']
-        }
-      }
-      axios.patch(APPROVE_URL(activityId), {}, config).then(res => {
+      axios.patch(APPROVE_URL(activityId), {}, sendJWTConfig()).then(res => {
+        // Approve Activity OK
         console.log('Activity approved');
-        axios.get(ACTIVITY_URL + activityId, config).then(res => selectActivity(res.data));
+        axios.get(ACTIVITY_URL + '/' + activityId, sendJWTConfig()).then(res => selectActivity(res.data));
       }).catch(err => {
         console.log("Cannot approve activity");
+        console.log(err);
+      });
+    }
+  }
+
+  const deactivateActivity = (activity) => {
+    if (roles.some(role => role === 'ADMIN')) {
+      const activityId = activity.activity_id;
+      axios.patch(DEACTIVATE_URL(activityId), {}, sendJWTConfig()).then(res => {
+        // Approve Activity OK
+        console.log('Activity deactivated');
+        setPage('landing');
+      }).catch(err => {
+        console.log("Cannot deactivate activity");
         console.log(err);
       });
     }
@@ -163,8 +217,23 @@ function App() {
 
   const addRating = (score, activity) => {
     if (roles.some(role => role === 'CONTRIBUTOR')) {
-      // TODO: post rating
-      setPage('landing');
+      const newRatingParams = {
+        "score": score,
+        "activity": {
+          "id": activity.activity_id
+        }
+      }
+
+      axios.post(RATINGS_URL, newRatingParams, sendJWTConfig()).then(res => {
+        // Rate Activity OK
+        console.log('success rating activity');
+        // TODO: show pop-up message or sth saying that the rating has been accepted
+        selectActivity(activity);
+      }).catch(err => {
+        console.log("Cannot rate activity");
+        // TODO: show pop-up message or sth saying that there's been an error
+        console.log(err);
+      });
     }
   }
 
@@ -188,7 +257,8 @@ function App() {
 
   const activityFunctions = {
     'seeRatings': clickSeeRatings,
-    'rate': showAddRatingForm
+    'rate': showAddRatingForm,
+    'deactivate': deactivateActivity
   }
 
   const inactiveActivityFunctions = {
@@ -221,7 +291,7 @@ function App() {
         
         {page === 'place' && (<Place func={placeFunctions} place={place}/>)}
 
-        {page === 'activity' && (<Activity func={activityFunctions} activity={activity}/>)}
+        {page === 'activity' && (<Activity func={activityFunctions} roles={roles} activity={activity}/>)}
 
         {page === 'inactiveActivities' && (<InactiveActivities func={inactiveActivityFunctions}/>)}
 

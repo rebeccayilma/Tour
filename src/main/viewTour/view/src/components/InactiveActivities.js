@@ -12,7 +12,7 @@ export function InactiveActivities(props) {
             setListActivities(res.data.map((activity, _) => {
                 return (
                     <div key={activity.activity_id}>
-                        <h4>Activity {activity.id}</h4>
+                        <h4>Activity {activity.activity_id}</h4>
                         {/* TODO: <img src={activity.image.path}/> */}
                         <p>{activity.info}</p>
                         <button onClick={() => approve(activity)}>Approve activity</button>

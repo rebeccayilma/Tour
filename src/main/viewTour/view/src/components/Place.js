@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { ACTIVE_ACTIVITY_URL } from '../http-utils';
+import { ACTIVE_ACTIVITY_URL, PLACEHOLDER_IMG_URL } from '../http-utils';
 import { NewActivityButton } from './buttons/PlaceButtons';
 
 function Activities(props) {
@@ -11,21 +11,22 @@ function Activities(props) {
   const placeId = props.placeId;
 
   useEffect(() => {
-    axios.get(ACTIVE_ACTIVITY_URL).then(res => {
+    axios.get(ACTIVE_ACTIVITY_URL(placeId)).then(res => {
       setListActivities(res.data.map((activity, _) => {
-        // TODO: this control MUST be done on backend, not here
-        if (activity.place.place_id === placeId) { 
-          return (
-            <div key={activity.activity_id}>
-              <h4 onClick={() => selectActivity(activity)}>Activity {activity.id}</h4>
-              {/* TODO: <img src={activity.image.path}/> */}
-              <p>{activity.info}</p>
-              <button onClick={() => selectActivity(activity)}>See activity</button>
-              <br/>
-              <hr/>
-            </div>
-          );
-        }
+        return (
+          <div key={activity.activity_id}>
+            <h4 onClick={() => selectActivity(activity)}>Activity {activity.id}</h4>
+            <img
+              src={activity.image ? activity.image.path : PLACEHOLDER_IMG_URL}
+              alt="Activity image"
+              onClick={() => selectActivity(activity)}
+            />
+            <p>{activity.info}</p>
+            <button onClick={() => selectActivity(activity)}>See activity</button>
+            <br/>
+            <hr/>
+          </div>
+        );
       }));
       setLoading(false);
     }).catch(err => {
@@ -55,6 +56,7 @@ export function Place(props) {
   const place = props.place;
   const isContributor = props.isContributor;
   const addActivity = props.func.addActivity;
+  const selectActivity = props.func.selectActivity;
 
   // TODO: 
   // const listImages = place.images.map((image, _) => {
@@ -71,9 +73,9 @@ export function Place(props) {
       </div>
       <h3>Click on an activity to see its details</h3>
       <hr/>
-      <Activities placeId={place.place_id}/>
+      <Activities placeId={place.place_id} selectActivity={selectActivity}/>
       <hr/>
       {isContributor && (<NewActivityButton addActivity={addActivity}/>)}
     </div>
-  )
+  );
 }
