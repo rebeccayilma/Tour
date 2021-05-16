@@ -1,11 +1,14 @@
 package com.example.tour.authentication.model;
 
-import com.example.tour.authentication.domain.Role;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.validation.constraints.Pattern;
 
 @Getter
 @Setter
@@ -17,6 +20,6 @@ public class User {
     private Long id;
     private String username;
     private String password;
-    @Enumerated(EnumType.STRING)
-    private Role role;
+    @Pattern(regexp = "^(ADMIN|CONTRIBUTOR)$")
+    private String role;
 }
