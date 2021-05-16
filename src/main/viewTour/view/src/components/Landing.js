@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import '../assets/main.css';
 import { NewPlaceButton, ProposedActivitiesButton } from './buttons/LandingButtons';
 import { PLACEHOLDER_IMG_URL, BASE_URL, PLACE_URL } from '../http-utils';
 
@@ -18,14 +19,24 @@ function Places(props) {
         //   )
         // });
         return (
-          <div key={place.place_id}>
-            <h4 onClick={() => selectPlace(place)}>Place {place.name}</h4>
+<div className="lg:w-1/4">
+          <div className=" container mx-auto flex flex-wrap items-start my-16" key={place.place_id}>
+              <div className="w-full lg:px-3">
+                  <div className="bg-gray-200 rounded-xl p-6">
+            <h4 className="text-2xl font-bold mb-2" onClick={() => selectPlace(place)}>Place {place.name}</h4>
             {/* TODO: {listImages} */}
-            <p>{place.description}</p>
-            <button onClick={() => selectPlace(place)}>See place</button>
+            <p className ="text-gray-800 leading-relaxed mb-6">{place.description}</p>
+                      <div className="border-t border-gray-300 pt-6 flex items-center justify-between">
+                          <span className="text-gray-700">Enjoy</span>
+            <button className="text-indigo-500 hover:text-indigo-600 font-medium" onClick={() => selectPlace(place)}>See place</button>
             <br/>
             <hr/>
+                      </div>
+                      </div>
+                  </div>
           </div>
+</div>
+
         );
       }));
       setLoading(false);
@@ -38,12 +49,12 @@ function Places(props) {
   }, [listPlaces]);
 
   if (loading) {
-    return (
-      <div>
-        Loading...
-      </div>
-    );
-  }
+              return (
+              <div>
+              Loading...
+              </div>
+              );
+          }
 
   return (
     <div>
@@ -63,8 +74,8 @@ export function Landing(props) {
   const seeProposedActivities = props.func.seeProposedActivities;
 
   return(
-    <div>
-      <h1>Click on a place to see its activities.</h1>
+    <div className="my-16">
+      <h1 className="text-center text-gray-700">Click on a place to see its activities.</h1>
       <hr/>
       {isAdmin && (<NewPlaceButton addPlace={addPlace}/>)}
       {isAdmin && (<ProposedActivitiesButton seeProposedActivities={seeProposedActivities}/>)}

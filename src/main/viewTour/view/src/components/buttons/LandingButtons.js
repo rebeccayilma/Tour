@@ -1,3 +1,6 @@
+
+import '../../assets/main.css'
+
 export function ProposedActivitiesButton(props) {
     return (
         <div>
