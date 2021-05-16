@@ -40,8 +40,11 @@ public class ActivityService {
         return activityRepository.findAllByIsActive(false);
     }
 
-    public List<Activity> getActiveActivities() {
-        return activityRepository.findAllByIsActive(true);
+    public List<Activity> getActiveActivities(Long placeId) {
+        return activityRepository.findAllByIsActive(true)
+                .stream()
+                .filter(activity -> activity.getPlace().getId().equals(placeId))
+                .collect(Collectors.toList());
     }
 
     @Transactional
