@@ -1,35 +1,38 @@
-import React, { Component, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { PLACEHOLDER_IMG_URL, BASE_URL } from '../http-utils';
+import { NewPlaceButton, ProposedActivitiesButton } from './buttons/LandingButtons';
+import { PLACEHOLDER_IMG_URL, BASE_URL, PLACE_URL } from '../http-utils';
 
-function Places() {
-  const [isLoading, setLoading] = useState(true);
+function Places(props) {
   const [listPlaces, setListPlaces] = useState([]);
-
-  const headers = {
-    'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjb250cmliIiwicm9sZSI6IkNPTlRSSUJVVE9SIiwiZXhwIjoxNjIxMTQ0NTI3fQ.OaYum9rqA4v5YLu4Duvqk3SkAYGcxi6nwMIwC0AIV3JW8sQZY2Qdr7FPL1u-4NiNGwkUDJNpiCWFdP0qp9v9Ug',
-    'Access-Control-Allow-Origin': BASE_URL
-  };
+  const selectPlace = props.selectPlace;
 
   useEffect(() => {
-    axios.get('api/place', {headers: headers}).then(res => {
-      console.log(res.data.map((place, index) => place));
-      setListPlaces(res.data.map((place, index) => {
-          return (
-            <div>
-              <h4>Place {place.name}</h4>
-              <p>{place.description}</p>
-            </div>
-          );
-        })
-      );
-      setLoading(false);
+    axios.get(PLACE_URL).then(res => {
+      setListPlaces(res.data.map((place, _) => {
+        // TODO: 
+        // const listImages = place.images.map((image, _) => {
+        //   return (
+        //     <img src={image.path} placeholder={PLACEHOLDER_IMG_URL} alt="place image"/>
+        //   )
+        // });
+        return (
+          <div key={place.place_id}>
+            {/* TODO: add selectPlace(place) without automatic redirection */}
+            <h4>Place {place.name}</h4>
+            {/* TODO: {listImages} */}
+            <p>{place.description}</p>
+            <button onClick={() => selectPlace(place)}>See place</button>
+          </div>
+        );
+      }));
+
     }).catch(err => {
       console.log("Cannot get places");
       console.log(err);
       return (<div>Error</div>);
     });
-
+    
   }, [listPlaces]);
 
   if (listPlaces.length === 0) {
@@ -47,27 +50,13 @@ function Places() {
   );
 }
 
-function NewPlaceButton() {
-  return (
-    <div>
-      {/* TODO: Button for adding new place */}
-      <a href={this.addPlace()}>Add place</a>
-    </div>
-  );
-}
 
-function ProposedActivitiesButton() {
-  return (
-    <div>
-      {/* TODO: Button for adding new place */}
-      <a href={this.seeProposedActivities()}>See proposed activities</a>
-    </div>
-  );
-}
+
+
 
 export function Landing(props) {
-  const [isAdmin, setAdmin] = useState(props.roles.some(role => role === 'admin'));
-  const [isContributor, setContributor] = useState(props.roles.some(role => role === 'contributor'));
+  const isAdmin = props.roles.some(role => role === 'ADMIN');
+  // const isContributor = props.roles.some(role => role === 'CONTRIBUTOR');
     
   const selectPlace = props.func.selectPlace;
 
@@ -84,9 +73,7 @@ export function Landing(props) {
       <Places selectPlace={selectPlace} />
       <br/>
 
-      {/* If Admin, "Add new place" button */}
       {isAdmin && (<NewPlaceButton addPlace={addPlace}/>)}
-      {/* If Admin, "See proposed activities" button */}
       {isAdmin && (<ProposedActivitiesButton seeProposedActivities={seeProposedActivities}/>)}
       
     </div>

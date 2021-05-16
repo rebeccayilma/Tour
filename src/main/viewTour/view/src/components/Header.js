@@ -1,13 +1,13 @@
 import { Component } from "react";
-import { RegisterButton, LoginButton, LogoutButton } from './AuthButtons';
-import { HomeButton } from './CommonButtons';
+import { RegisterButton, LoginButton, LogoutButton } from './buttons/AuthButtons';
+import { HomeButton } from './buttons/CommonButtons';
 
 export function Header(props) {
     const isLoggedIn = props.isLoggedIn;
     if (isLoggedIn) {
         return <MemberHeader 
             handleLogout={props.func.logout}
-            home={props.home}
+            home={props.func.home}
         />;
     }
     return <NormalUserHeader

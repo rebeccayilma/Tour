@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Header } from './components/Header';
 import { Landing } from './components/Landing';
 import { Place } from './components/Place';
 import { Activity } from './components/Activity';
 import { RatingList, Rating } from './components/Ratings';
 import { LoginForm } from './components/LoginForm';
-import { COOKIES_URL, REGISTER_URL, LOGIN_URL } from './http-utils';
+import { COOKIES_URL, REGISTER_URL, LOGIN_URL, PLACE_URL } from './http-utils';
 import { useCookies } from 'react-cookie';
-import { axios } from 'axios';
+import axios from 'axios';
 
 
 const getUserRoles = (isLoggedIn) => {
@@ -21,6 +21,8 @@ function App() {
   const [page, setPage] = useState('landing');
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [roles, setRoles] = useState(getUserRoles(isLoggedIn));
+  const [place, setPlace] = useState({});
+  const [activity, setActivity] = useState({});
   const [cookies, setCookie, removeCookie] = useCookies(['cookie-name']);
 
   const showLoginForm = () => {
@@ -31,6 +33,7 @@ function App() {
     setPage("registerForm");
   }
 
+  /* Logout */
   const logout = () => {
     setLoggedIn(false);
     removeCookie('JWT', { path: COOKIES_URL }); // TODO: check correctness
@@ -38,25 +41,27 @@ function App() {
     setPage('landing');
   }
 
+  /* Login */
   const login = (username, password) => {
     const loginParams = {
       "username": username,
       "password": password
     }
+    
     axios.post(LOGIN_URL, loginParams).then(res => {
-      console.log(res);
       setLoggedIn(true);
-
-      console.log("Headers " + res.headers);
       setCookie('JWT', res.headers.authorization, { path: COOKIES_URL });
       setRoles(getUserRoles(true));
+      setPage('landing');
     }).catch(err => {
       console.log("Cannot login");
       console.log(err);
       logout();
     });
+    
   }
 
+  /* Register */
   const register = (username, password) => {
     const registerParams = {
       "username": username,
@@ -65,7 +70,6 @@ function App() {
     }
     axios.post(REGISTER_URL, registerParams).then(res => {
       // Register OK
-      console.log(res);
       login(username, password);
     }).catch(err => {
       console.log("Cannot register");
@@ -78,9 +82,9 @@ function App() {
     setPage('landing');
   }
 
-  const selectPlace = (placeId) => {
+  const selectPlace = (place) => {
+    setPlace(place);
     setPage('place');
-    // TODO: retrieve all activities of place
   }
 
   const addPlace = () => {
@@ -93,9 +97,9 @@ function App() {
     // TODO
   }
 
-  const clickActivity = (placeId, activityId) => {
+  const clickActivity = (activity) => {
+    setActivity(activity);
     setPage('activity');
-    // TODO
   }
 
   const clickSeeRatings = (activityId) => {
@@ -146,17 +150,17 @@ function App() {
       <div>
         {page === 'landing' && (<Landing roles={roles} func={landingFunctions} />)}
 
-        {page === 'showLoginForm' && (<LoginForm submit={login} />)}
+        {page === 'loginForm' && (<LoginForm submit={login} />)}
 
-        {page === 'showRegisterForm' && (<LoginForm submit={register} />)}
+        {page === 'registerForm' && (<LoginForm submit={register} />)}
         
-        {page === 'place' && (<Place func={placeFunctions} />)}
+        {page === 'place' && (<Place func={placeFunctions} place={place}/>)}
 
-        {page === 'activity' && (<Activity func={activityFunctions} />)}
+        {page === 'activity' && (<Activity func={activityFunctions} activity={activity}/>)}
 
-        {page === 'ratings' && (<RatingList func={ratingFunctions} />)}
+        {page === 'ratings' && (<RatingList func={ratingFunctions} activity={activity}/>)}
 
-        {page === 'rateActivity' && (<Rating />)}
+        {page === 'rateActivity' && (<Rating activity={activity}/>)}
       </div>
     </div>
   );

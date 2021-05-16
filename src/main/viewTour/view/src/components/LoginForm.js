@@ -1,34 +1,48 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 
-export class LoginForm extends Component {
-  constructor(props) {
-    super(props);
-    // handle initialization activities
+export function LoginForm(props) {
+  const [username, setUsername] = useState([]);
+  const [password, setPassword] = useState([]);
+  const submit = props.submit;
+
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+
+    if (!username) {
+      // TODO: print error
+      // return this.setState({ error: 'Password is required' });
+      return;
+    }
+
+    if (!password) {
+      // TODO: print error
+      // return this.setState({ error: 'Password is required' });
+      return;
+    }
+
+    submit(username, password);
   }
-  handleChangeEvents(event) {
-    //handle change events
+
+  const handleUserChange = (evt) => {
+    setUsername(evt.target.value);
   }
-  handleSubmitevents(event) {
-    // handle submit events
+
+  const handlePassChange = (evt) => {
+    setPassword(evt.target.value);
   }
-  handlePasswordChange(event){
-    //handle password change events
-  }
-  render() {
-    return (
-      <p>El login form</p>
-      // <div className=" TestLoginForm ">
-      //   <form onSubmit={this.handleSubmitevents}>
-      //     {
-      //       //handle error condition
-      //     }
-      //     <label>User Name</label>
-      //     <input type="text" data-test="username" value={this.state.username} onChange={this.handleChangeEvents} />
-      //     <label>Password</label>
-      //     <input type="password" data-test="password" value={this.state.password} onChange={this. handlePasswordChange } />
-      //     <input type="submit" value="Log In" data-test="submit" />
-      //   </form>
-      // </div>
-    );
-  }
+
+  return (
+    <div className="Login">
+      <form onSubmit={handleSubmit}>
+        
+        <label>Username</label>
+        <input type="text" data-test="username" value={username} onChange={handleUserChange} />
+
+        <label>Password</label>
+        <input type="password" data-test="password" value={password} onChange={handlePassChange} />
+
+        <input type="submit" value="Log In" data-test="submit" />
+      </form>
+    </div>
+  );
 }

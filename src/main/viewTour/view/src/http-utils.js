@@ -1,9 +1,9 @@
 export const BASE_URL = 'http://localhost:8080/';
 
-export const PLACE_URL = BASE_URL + 'api/place/';
-export const ACTIVITY_URL = BASE_URL + 'api/activity/';
-export const REGISTER_URL = BASE_URL + 'user/new/';
-export const LOGIN_URL = BASE_URL + 'login/';
+export const PLACE_URL = 'api/place';
+export const ACTIVITY_URL = 'api/activity';
+export const REGISTER_URL = 'user/new';
+export const LOGIN_URL = 'login';
 
 export const RATINGS_URL = ACTIVITY_URL + 'ratings/';
 
