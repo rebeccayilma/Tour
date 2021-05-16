@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { ACTIVE_ACTIVITY_URL } from '../http-utils';
 import axios from 'axios';
+import { ACTIVE_ACTIVITY_URL } from '../http-utils';
+import { NewActivityButton } from './buttons/PlaceButtons';
 
 function Activities(props) {
   const [listActivities, setListActivities] = useState([]);
@@ -52,6 +53,8 @@ function Activities(props) {
 
 export function Place(props) {
   const place = props.place;
+  const isContributor = props.isContributor;
+  const addActivity = props.func.addActivity;
 
   // TODO: 
   // const listImages = place.images.map((image, _) => {
@@ -69,6 +72,8 @@ export function Place(props) {
       <h3>Click on an activity to see its details</h3>
       <hr/>
       <Activities placeId={place.place_id}/>
+      <hr/>
+      {isContributor && (<NewActivityButton addActivity={addActivity}/>)}
     </div>
   )
 }

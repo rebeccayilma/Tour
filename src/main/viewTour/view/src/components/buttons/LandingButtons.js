@@ -1,15 +1,15 @@
-export function ProposedActivitiesButton(seeProposedActivities) {
+export function ProposedActivitiesButton(props) {
     return (
         <div>
-            <button onClick={() => seeProposedActivities()}>See proposed activities</button>
+            <button onClick={props.seeProposedActivities}>See proposed activities</button>
         </div>
     );
 }
 
-export function NewPlaceButton(addPlace) {
+export function NewPlaceButton(props) {
     return (
         <div>
-           <button onClick={() => addPlace()}>Add place</button>
+           <button onClick={props.addPlace}>Add place</button>
         </div>
     );
 }

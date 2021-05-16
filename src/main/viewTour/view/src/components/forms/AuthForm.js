@@ -9,13 +9,13 @@ export function LoginForm(props) {
     evt.preventDefault();
 
     if (!username) {
-      // TODO: print error
+      // TODO: inform error
       // return this.setState({ error: 'Password is required' });
       return;
     }
 
     if (!password) {
-      // TODO: print error
+      // TODO: inform error
       // return this.setState({ error: 'Password is required' });
       return;
     }

@@ -54,6 +54,7 @@ function Places(props) {
 
 export function Landing(props) {
   const isAdmin = props.roles.some(role => role === 'ADMIN');
+  const isContributor = props.roles.some(role => role === 'CONTRIBUTOR');
     
   const selectPlace = props.func.selectPlace;
 
@@ -70,7 +71,7 @@ export function Landing(props) {
       <hr/>
       
       {/* Print each of places' pictures (carrousel, maybe) and names, linked to the single place profile */}
-      <Places selectPlace={selectPlace} />
+      <Places selectPlace={selectPlace} isContributor={isContributor}/>
       <br/>
       <hr/>
 
