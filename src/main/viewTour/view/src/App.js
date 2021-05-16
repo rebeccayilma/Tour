@@ -120,7 +120,7 @@ function App() {
         "description": description
       }
 
-      axios.post(PLACE_URL, newPlaceParams, sendJWTConfig()).then(res => {
+      axios.post(PLACE_URL + '/', newPlaceParams, sendJWTConfig()).then(res => {
         // Create Place OK
         console.log('success posting place');
         // TODO: show pop-up message or sth saying that the place has been posted
@@ -141,6 +141,7 @@ function App() {
 
   const showAddActivityForm = (place) => {
     if (roles.some(role => role === 'CONTRIBUTOR')) {
+      console.log("opening new activity form: ", place)
       setPlace(place);
       setPage('newActivityForm');
     }
@@ -155,7 +156,7 @@ function App() {
         }
       }
 
-      axios.post(ACTIVITY_URL, newActivityParams, sendJWTConfig()).then(res => {
+      axios.post(ACTIVITY_URL + '/', newActivityParams, sendJWTConfig()).then(res => {
         // Create Activity OK
         console.log('success posting activity');
         // TODO: show pop-up message or sth saying that the activity has been posted
@@ -174,10 +175,8 @@ function App() {
   }
 
   const clickSeeRatings = (activity) => {
-    if (roles.some(role => role === 'CONTRIBUTOR')) {
-      setActivity(activity);
-      setPage('ratings');
-    }
+    setActivity(activity);
+    setPage('ratings');
   }
 
   const approveActivity = (activity) => {
@@ -289,7 +288,7 @@ function App() {
 
         {page === 'landing' && (<Landing roles={roles} func={landingFunctions} />)}
         
-        {page === 'place' && (<Place func={placeFunctions} place={place}/>)}
+        {page === 'place' && (<Place func={placeFunctions} roles={roles} place={place}/>)}
 
         {page === 'activity' && (<Activity func={activityFunctions} roles={roles} activity={activity}/>)}
 

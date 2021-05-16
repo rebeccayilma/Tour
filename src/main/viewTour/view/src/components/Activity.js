@@ -1,6 +1,6 @@
 import React from 'react';
 import { PLACEHOLDER_IMG_URL } from '../http-utils';
-import { NewRatingButton, DeactivateButton } from './buttons/ActivityButtons';
+import { NewRatingButton, DeactivateButton, SeeRatingsButton } from './buttons/ActivityButtons';
 
 export function Activity (props) {
   const activity = props.activity;
@@ -18,7 +18,7 @@ export function Activity (props) {
           alt="Activity"
           onClick={() => seeRatings(activity)}
         />
-        <h2 onClick={() => seeRatings(activity)}>Activity {activity.id}</h2>
+        <h2 onClick={() => seeRatings(activity)}>Activity {activity.activity_id}</h2>
       </div>
       <div>
         <p>{activity.info}</p>
@@ -26,6 +26,7 @@ export function Activity (props) {
       <hr/>
       {isContributor && (<NewRatingButton rate={() => rate(activity)}/>)}
       {isAdmin && (<DeactivateButton deactivate={() => deactivate(activity)}/>)}
+      <SeeRatingsButton seeRatings={() => seeRatings(activity)}/>
     </div>
   );
 

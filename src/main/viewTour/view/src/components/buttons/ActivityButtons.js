@@ -13,3 +13,11 @@ export function DeactivateButton(props) {
         </div>
     );
 }
+
+export function SeeRatingsButton(props) {
+    return (
+        <div>
+           <button onClick={props.seeRatings}>Ratings</button>
+        </div>
+    );
+}

@@ -54,8 +54,8 @@ function Activities(props) {
 
 export function Place(props) {
   const place = props.place;
-  const isContributor = props.isContributor;
-  const addActivity = props.func.addActivity;
+  const isContributor = props.roles.some(role => role === 'CONTRIBUTOR');
+  const addActivity = () => props.func.addActivity(place);
   const selectActivity = props.func.selectActivity;
 
   // TODO: 

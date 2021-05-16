@@ -24,7 +24,8 @@ function Ratings(props) {
       }).catch(err => {
         console.log("Cannot get ratings of activity " + activityId);
         console.log(err);
-        return (<div>Error</div>);
+        setLoading(false);
+        return (<div>No ratings</div>);
       });
       
     }, [loading]);
@@ -45,11 +46,12 @@ function Ratings(props) {
   }
 
 export function RatingList(props) {
-    return (
-        <div>
-            <h1>Rating list for activity {props.activityId}</h1>
-            <hr/>
-            <Ratings activityId={props.activityId}/>
-        </div>
-    )
+  const activityId = props.activity.activity_id;  
+  return (
+    <div>
+      <h1>Rating list for activity {activityId}</h1>
+      <hr/>
+      <Ratings activityId={activityId}/>
+    </div>
+  );
 }

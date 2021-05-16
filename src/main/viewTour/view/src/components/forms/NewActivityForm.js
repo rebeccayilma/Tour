@@ -25,9 +25,8 @@ export function NewActivityForm(props) {
         <div className="NewActivity">
         <form onSubmit={handleSubmit}>
             
-            <label>Place</label>
-            <input type="text" data-test="place" value={place.name} readOnly />
-
+            <label>Place {place.name}</label>
+            <br/>
             <label>Info</label>
             <input type="text" data-test="info" value={info} onChange={handleInfoChange} />
 
