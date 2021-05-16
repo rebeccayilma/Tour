@@ -24,7 +24,6 @@ public class ActivityController {
     @PostMapping
     public void proposeNewActivity(@RequestBody Activity activity) {
         if (activity == null || activity.isActive()) return;
-        System.out.println(activity);
         activityService.addNewActivity(activity);
     }
 
