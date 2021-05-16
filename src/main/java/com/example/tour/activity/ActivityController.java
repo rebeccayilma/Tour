@@ -28,23 +28,24 @@ public class ActivityController {
         activityService.addNewActivity(activity);
     }
 
-    @PutMapping(path = "approve/{activityId}")
+    @PatchMapping(path = "approve/{activityId}")
     public void approveActivity(@PathVariable("activityId") Long activityId) {
         activityService.approveActivity(activityId);
     }
 
     @GetMapping(path = "inactive")
-    public List<ActivityDTO> listInActiveActivities() {
+    public List<ActivityDTO> listInactiveActivities() {
         return TransformerUtils.createListActivityDTO(activityService.getInactiveActivities());
     }
 
-    @PutMapping(path = "deactivate/{activityId}")
+    @PatchMapping(path = "deactivate/{activityId}")
     public void deactivateActivity(@PathVariable("activityId") Long activityId) {
         activityService.deactivateActivity(activityId);
     }
 
     @GetMapping(path = "active")
     public List<ActivityDTO> listActiveActivities() {
+        // TODO: filter by placeId
         return TransformerUtils.createListActivityDTO(activityService.getActiveActivities());
     }
 
