@@ -16,6 +16,7 @@ public class RatingController {
     public RatingController(RatingService ratingService) {
         this.ratingService = ratingService;
     }
+
     @GetMapping("{activity_id}")
     public List<RatingDTO> getAllRating(@PathVariable(value = "activity_id") Long activityId){
         return TransformerUtils.createListRatingDTO(ratingService.getRatings(activityId));

@@ -12,10 +12,11 @@ import { NewRatingForm } from './components/forms/NewRatingForm';
 import { 
   COOKIES_URL, REGISTER_URL, LOGIN_URL,
   APPROVE_URL, ACTIVITY_URL, PLACE_URL,
-  RATINGS_URL, DEACTIVATE_URL 
+  RATING_URL, DEACTIVATE_URL 
 } from './http-utils';
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
+import { getCurrentDate } from './utils';
 
 
 const getUserRoles = (isLoggedIn) => {
@@ -217,13 +218,14 @@ function App() {
   const addRating = (score, activity) => {
     if (roles.some(role => role === 'CONTRIBUTOR')) {
       const newRatingParams = {
+        "date": getCurrentDate('-'),
         "score": score,
         "activity": {
           "id": activity.activity_id
         }
       }
 
-      axios.post(RATINGS_URL, newRatingParams, sendJWTConfig()).then(res => {
+      axios.post(RATING_URL + '/', newRatingParams, sendJWTConfig()).then(res => {
         // Rate Activity OK
         console.log('success rating activity');
         // TODO: show pop-up message or sth saying that the rating has been accepted

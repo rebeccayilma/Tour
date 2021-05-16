@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { RATINGS_URL } from '../http-utils';
+import { RATING_URL } from '../http-utils';
 import axios from 'axios';
 
 function Ratings(props) {
@@ -9,7 +9,7 @@ function Ratings(props) {
     const activityId = props.activityId;
   
     useEffect(() => {
-      axios.get(RATINGS_URL(activityId)).then(res => {
+      axios.get(RATING_URL + '/' + activityId).then(res => {
         setListRatings(res.data.map((rating, _) => {
             return (
               <div key={rating.rating_id}>
