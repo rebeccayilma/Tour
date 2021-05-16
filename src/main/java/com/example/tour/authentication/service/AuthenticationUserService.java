@@ -22,7 +22,7 @@ public class AuthenticationUserService implements UserDetailsService {
         if (user==null){
             throw new UsernameNotFoundException(username);
         }
-        return new org.springframework.security.core.userdetails.User(user.getUsername(),user.getPassword(),getAuthorities(user.getRole()));
+        return new org.springframework.security.core.userdetails.User(user.getUsername(),user.getPassword(),getAuthorities(user.getRole().toString()));
     }
     private Collection<? extends GrantedAuthority> getAuthorities(String role) {
         return Arrays.asList(new SimpleGrantedAuthority(role));
