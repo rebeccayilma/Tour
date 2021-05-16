@@ -23,6 +23,7 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws AuthenticationException{
@@ -38,5 +39,6 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     protected void successfulAuthentication(HttpServletRequest httpServletRequest,HttpServletResponse httpServletResponse, FilterChain filterChain, Authentication authentication) throws IOException, ServletException{
         String token = JWT.create().withSubject(((org.springframework.security.core.userdetails.User) authentication.getPrincipal()).getUsername()).withClaim("role",authentication.getAuthorities().iterator().next().getAuthority()).withExpiresAt(new Date(System.currentTimeMillis()+AuthenticationConfigConstants.EXPIRATION_TIME)).sign(Algorithm.HMAC512(AuthenticationConfigConstants.SECRET.getBytes()));
         httpServletResponse.addHeader(AuthenticationConfigConstants.HEADER_STRING,AuthenticationConfigConstants.TOKEN_PREFIX+token);
+        httpServletResponse.getWriter().write("["+objectMapper.writeValueAsString(authentication.getPrincipal())+",{\"token\": \""+AuthenticationConfigConstants.TOKEN_PREFIX + token + "\"}]");
     }
 }
