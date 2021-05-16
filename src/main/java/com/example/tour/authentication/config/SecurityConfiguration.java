@@ -22,10 +22,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http)throws Exception{
         http.cors().and().csrf().disable().authorizeRequests().antMatchers(HttpMethod.POST, AuthenticationConfigConstants.SIGN_UP_URL).permitAll()
-                .antMatchers("api/place").permitAll()
-                .antMatchers("/user/**","api/activity/approve/**","api/activity/inactive","api/activity/deactivate/**").hasAnyAuthority("ADMIN")
-                .antMatchers(HttpMethod.POST,"api/activity").hasAnyAuthority("CONTRIBUTOR")
-                .antMatchers(HttpMethod.POST,"api/place").hasAnyAuthority("ADMIN")
+                .antMatchers(HttpMethod.POST,"/api/place").hasAnyAuthority("ADMIN")
+                .antMatchers("/api/place/**").permitAll()
+                .antMatchers(HttpMethod.PUT,"api/activity/approve/**","api/activity/deactivate/**").hasAnyAuthority("ADMIN")
+                .antMatchers(HttpMethod.POST,"/api/activity").hasAnyAuthority("CONTRIBUTOR")
                 .anyRequest().authenticated().and()
                 .addFilter(new JWTAuthenticationFilter(authenticationManager()))
                 .addFilter(new JWTAuthorizationFilter(authenticationManager()))
