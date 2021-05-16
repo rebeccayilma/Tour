@@ -23,7 +23,6 @@ public class RatingController {
 
     @PostMapping
     public void addNewRating(@RequestBody Rating rating) {
-        System.out.println(rating);
         ratingService.addNewRating(rating);
     }
 

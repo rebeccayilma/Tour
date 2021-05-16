@@ -43,10 +43,9 @@ public class ActivityController {
         activityService.deactivateActivity(activityId);
     }
 
-    @GetMapping(path = "active")
-    public List<ActivityDTO> listActiveActivities() {
-        // TODO: filter by placeId
-        return TransformerUtils.createListActivityDTO(activityService.getActiveActivities());
+    @GetMapping(path = "{placeId}/active")
+    public List<ActivityDTO> listActiveActivities(@PathVariable("placeId") Long placeId) {
+        return TransformerUtils.createListActivityDTO(activityService.getActiveActivities(placeId));
     }
 
 }
