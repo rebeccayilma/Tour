@@ -27,7 +27,7 @@ class RatingServiceTest {
     private Activity activity;
     private Place place;
     private Rating rating;
-private ActivityService activityService;
+    private ActivityService activityService;
     @Mock
     private PlaceRepository placeRepository;
     private RatingService underTest;
@@ -54,14 +54,12 @@ private ActivityService activityService;
                 10.0,
                 20.0,
                 "description",
+                new ArrayList<>(),
                 new ArrayList<>());
         activity = new Activity("info", place);
-        when(placeRepository.findById(anyLong()))
-                .thenReturn(java.util.Optional.ofNullable(place));
-        activityService.addNewActivity(activity);
-
+        activity.setId(1L);
         rating = new Rating(LocalDate.now(),4, activity);
-
+        rating.setActivity(activity);
         when(activityRepository.findById(anyLong()))
                 .thenReturn(java.util.Optional.ofNullable(activity));
         underTest.addNewRating(rating);
