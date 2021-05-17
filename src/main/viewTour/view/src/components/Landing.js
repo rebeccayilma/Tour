@@ -20,7 +20,7 @@ function Places(props) {
         // });
         return (
 <div className="lg:w-1/4">
-          <div className=" container mx-auto flex flex-wrap items-start my-16" key={place.place_id}>
+          <div className="container mx-auto flex flex-wrap items-start my-16" key={place.place_id}>
               <div className="w-full lg:px-3">
                   <div className="bg-gray-200 rounded-xl p-6">
             <h4 className="text-2xl font-bold mb-2" onClick={() => selectPlace(place)}>Place {place.name}</h4>
