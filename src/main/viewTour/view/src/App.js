@@ -18,20 +18,10 @@ import { useCookies } from 'react-cookie';
 import axios from 'axios';
 import { getCurrentDate } from './utils';
 
-
-const getUserRoles = (isLoggedIn) => {
-  return isLoggedIn ? () => {
-    // TODO: connection with backend + get roles
-    // TODO: remove default values ([])
-    return ["CONTRIBUTOR", "ADMIN"];
-  } : [];
-}
-
-
 function App() {
   const [page, setPage] = useState('landing');
   const [isLoggedIn, setLoggedIn] = useState(false);
-  const [roles, setRoles] = useState(getUserRoles(isLoggedIn));
+  const [roles, setRoles] = useState([]);
   const [place, setPlace] = useState({});
   const [activity, setActivity] = useState({});
   const [cookies, setCookie, removeCookie] = useCookies(['cookie-name']);
@@ -56,7 +46,7 @@ function App() {
   const logout = () => {
     setLoggedIn(false);
     removeCookie('JWT', { path: COOKIES_URL });
-    setRoles(getUserRoles(false));
+    setRoles([]);
     setPage('landing');
   }
 
@@ -70,7 +60,7 @@ function App() {
     axios.post(LOGIN_URL, loginParams).then(res => {
       setLoggedIn(true);
       setCookie('JWT', res.headers.authorization, { path: COOKIES_URL });
-      setRoles(getUserRoles(true));
+      setRoles(() => res.data[0].authorities.map((role, index) => role.authority));
       setPage('landing');
     }).catch(err => {
       console.log("Cannot login");

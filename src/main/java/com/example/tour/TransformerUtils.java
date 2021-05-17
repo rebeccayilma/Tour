@@ -16,13 +16,15 @@ import java.util.List;
 public class TransformerUtils {
     public static PlaceDTO createPlaceDTO(Place place) {
         PlaceDTO placeDTO = new PlaceDTO();
-        BeanUtils.copyProperties(place, placeDTO);
+        BeanUtils.copyProperties(place, placeDTO, "images");
+        placeDTO.setImages(createListImageDTO(place.getImages()));
+
         return placeDTO;
     }
 
     public static ActivityDTO createActivityDTO(Activity activity) {
         ActivityDTO activityDTO = new ActivityDTO();
-        BeanUtils.copyProperties(activity, activityDTO, "place");
+        BeanUtils.copyProperties(activity, activityDTO, "place", "ratings");
         activityDTO.setPlace(createPlaceDTO(activity.getPlace()));
 
         return activityDTO;
