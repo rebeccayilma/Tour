@@ -58,6 +58,7 @@ export function Place(props) {
   const addActivity = () => props.func.addActivity(place);
   const selectActivity = props.func.selectActivity;
 
+
   const listImages = place.images.map((image, _) => {
     return (
       <img src={image.path ? image.path : PLACEHOLDER_IMG_URL} alt="place"/>

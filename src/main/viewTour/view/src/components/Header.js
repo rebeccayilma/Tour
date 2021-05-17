@@ -1,6 +1,10 @@
 import { Component } from "react";
+import '../assets/main.css'
+
+
 import { RegisterButton, LoginButton, LogoutButton } from './buttons/AuthButtons';
 import { HomeButton } from './buttons/CommonButtons';
+
 
 export function Header(props) {
     const isLoggedIn = props.isLoggedIn;
@@ -30,12 +34,33 @@ class MemberHeader extends Component {
 
     render () {
         return(
-            <div>
-                <h1>Welcome back!</h1>
-                {/* TODO: check binding */}
-                <LogoutButton onClick={this.handleLogout} />
-                <HomeButton onClick={this.home} />
-            </div> 
+            <body className="antialiased bg-gray-200">
+            <div className="lg:px-16 px-6 bg-white flex flex-wrap items-center lg:py-0 py-2">
+                <div className="flex-1 flex justify-between items-center bg-blue-300">
+                    <div className="hidden lg:flex lg:items-center lg:w-auto w-full" id ="menu">
+                        <nav>
+                            <ul className="lg:flex items-center justify-between text-base text-gray-700 pt-4 lg:pt-0">
+                                <li>
+                                    <h3 className="lg:p-4 py-3 px-0 block border-b-2 border-transparent hover:hover-indigo-400">Welcome!</h3>
+                                </li>
+                                <li>
+                                    <LogoutButton className="lg:p-4 py-3 px-0 block border-b-2 border-transparent hover:hover-indigo-400"  onClick={this.handleLogout} />
+
+                                </li>
+                                <li>
+                                    <HomeButton className="lg:p-4 py-3 px-0 block border-b-2 border-transparent hover:hover-indigo-400"  onClick={this.home} />
+
+                                </li>
+
+                            </ul>
+
+                        </nav>
+                    </div>
+
+                </div>
+
+            </div>
+            </body>
         );
     }  
 }
@@ -56,13 +81,37 @@ class NormalUserHeader extends Component {
 
     render () {
         return(
-            <div>
-                <h3>Welcome! Login if want to contribute :)</h3>
+            <body className="antialiased bg-gray-200">
+            <div className="lg:px-16 px-6 bg-white flex flex-wrap items-center lg:py-0 py-2">
+            <div className="flex-1 flex justify-between items-center bg-blue-300">
+        <div className="hidden lg:flex lg:items-center lg:w-auto w-full" id ="menu">
+                <nav>
+                    <ul className="lg:flex items-center justify-between text-base text-gray-700 pt-4 lg:pt-0">
+                        <li>
+                            <h3 className="lg:p-4 py-3 px-0 block border-b-2 border-transparent hover:hover-indigo-400">Welcome!</h3>
+                        </li>
+                        <li>
+                            <HomeButton className="lg:p-4 py-3 px-0 block border-b-2 border-transparent hover:hover-indigo-400"  onClick={this.home} />
 
-                <RegisterButton onClick={this.handleRegister} />
-                <LoginButton onClick={this.handleLogin} />
-                <HomeButton onClick={this.home} />
+                        </li>
+                        <li>
+                            <RegisterButton className="lg:p-4 py-3 px-0 block border-b-2 border-transparent hover:hover-indigo-400"  onClick={this.handleRegister} />
+
+                        </li>
+                        <li>
+                            <LoginButton className="lg:p-4 py-3 px-0 block border-b-2 border-transparent hover:hover-indigo-400"  onClick={this.handleLogin}  />
+
+                        </li>
+
+                    </ul>
+
+                </nav>
+        </div>
+
             </div>
+
+            </div>
+            </body>
         );
     }  
 }
