@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/user")
 public class UserController {
+
     private final UserService userService;
     @PostMapping("/new")
     public ResponseEntity<User> create(@RequestBody UserDTO user){
