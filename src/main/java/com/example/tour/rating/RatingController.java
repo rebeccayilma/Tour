@@ -8,7 +8,7 @@ import java.util.List;
 
 @RestController
 
-@RequestMapping("/api/rating")
+@RequestMapping("api/rating")
 public class RatingController {
     private final RatingService ratingService;
 
@@ -16,6 +16,7 @@ public class RatingController {
     public RatingController(RatingService ratingService) {
         this.ratingService = ratingService;
     }
+
     @GetMapping("{activity_id}")
     public List<RatingDTO> getAllRating(@PathVariable(value = "activity_id") Long activityId){
         return TransformerUtils.createListRatingDTO(ratingService.getRatings(activityId));
@@ -23,7 +24,6 @@ public class RatingController {
 
     @PostMapping
     public void addNewRating(@RequestBody Rating rating) {
-        System.out.println(rating);
         ratingService.addNewRating(rating);
     }
 

@@ -52,7 +52,7 @@ class ActivityControllerTest {
     public void testListOfInactiveActivities() {
         List<Activity> allActivities = Arrays.asList(stubActivity(), stubActivity());
         when(activityService.getInactiveActivities()).thenReturn(allActivities);
-        List<ActivityDTO> activityDTOList = activityController.listInActiveActivities();
+        List<ActivityDTO> activityDTOList = activityController.listInactiveActivities();
         assertThat(activityDTOList.size()).isEqualTo(2);
         assertThat((activityDTOList.get(0).getInfo())).isEqualTo(allActivities.get(0).getInfo());
         assertFalse((allActivities.get(0).isActive()));

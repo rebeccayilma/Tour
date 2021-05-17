@@ -28,7 +28,7 @@ public class UserService {
         }
         user.setUsername(userDTO.getUsername());
         user.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
-        user.setRole(userDTO.getRole());
+        user.setRole("CONTRIBUTOR");
         userRepository.save(user);
     }
 }
