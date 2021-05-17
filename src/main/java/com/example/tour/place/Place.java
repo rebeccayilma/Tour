@@ -29,7 +29,7 @@ public class Place {
     )
     @Column(name = "id", updatable = false)
     private Long id;
-    @Column(name = "name", columnDefinition = "TEXT", nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
     @Column(name = "latitude")
     private double latitude;
