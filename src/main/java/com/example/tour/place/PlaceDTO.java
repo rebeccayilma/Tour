@@ -20,6 +20,4 @@ public class PlaceDTO {
     private String description;
     @JsonProperty(value= "images")
     private List<ImageDTO> images;
-    @JsonProperty(value= "activities")
-    private List<ActivityDTO> activities;
 }

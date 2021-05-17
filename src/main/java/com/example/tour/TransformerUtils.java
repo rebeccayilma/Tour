@@ -16,9 +16,8 @@ import java.util.List;
 public class TransformerUtils {
     public static PlaceDTO createPlaceDTO(Place place) {
         PlaceDTO placeDTO = new PlaceDTO();
-        BeanUtils.copyProperties(place, placeDTO, "images", "activities");
+        BeanUtils.copyProperties(place, placeDTO, "images");
         placeDTO.setImages(createListImageDTO(place.getImages()));
-        placeDTO.setActivities(createListActivityDTO(place.getActivities()));
 
         return placeDTO;
     }
