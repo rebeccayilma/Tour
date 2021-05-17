@@ -17,6 +17,7 @@ import {
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
 import { getCurrentDate } from './utils';
+import {RegisterForm} from "./components/forms/RegisterForm";
 
 function App() {
   const [page, setPage] = useState('landing');
@@ -272,7 +273,7 @@ function App() {
       <div>
         {page === 'loginForm' && (<LoginForm submit={login} />)}
 
-        {page === 'registerForm' && (<LoginForm submit={register} />)}
+        {page === 'registerForm' && (<RegisterForm submit={register} />)}
 
         {page === 'newPlaceForm' && (<NewPlaceForm submit={addPlace} />)}
 

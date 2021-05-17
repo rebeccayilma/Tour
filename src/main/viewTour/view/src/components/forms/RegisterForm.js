@@ -1,8 +1,8 @@
 import React, {useState} from "react";
 
 export function RegisterForm(props) {
-    const [username, setUsername] = useState([]);
-    const [password, setPassword] = useState([]);
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
     const submit = props.submit;
 
     const handleSubmit = (evt) => {
@@ -32,12 +32,12 @@ export function RegisterForm(props) {
     }
 
     return (
-        <div className="Login">
+        <div className="Register">
             <br  />
             <br  />
             <div className="p-10">
                 <h2 className="text-center text-3xl leading-9 font-extrabold text-gray-800">Register</h2>
-                <p className="text-center text-sm leading-5 font-extrabold text-gray-600">or <span>Create an Account</span> It is Simple and Easy <br/></p>
+                <p className="text-center text-sm leading-5 font-extrabold text-gray-600"></p>
             </div>
             <form onSubmit={handleSubmit}>
                 <div className="flex justify-center">
@@ -55,7 +55,7 @@ export function RegisterForm(props) {
                 <div className="mt-4 flex justify-center">
                     <button type="submit" className="group w-full lg:w-1/3 md:w-2/3 py-2 px-4  border border-transparent text-sm leading-5 font-medium
                 rounded-md text-white bg-blue-500 hover:bg-teal-400 focus:outline-none focus:border-teal-400
-                focus:shadow-outline-teal active:bg-blue-400 active:outline-none transition duration-150 ease-in-out" data-test="submit"> Sign In </button>
+                focus:shadow-outline-teal active:bg-blue-400 active:outline-none transition duration-150 ease-in-out" data-test="submit"> Register </button>
 
                 </div>
             </form>
