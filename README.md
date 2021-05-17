@@ -16,8 +16,8 @@
 > docker compose up&
 
 # Run frontend server
-> cd src/main/viewTour
+> cd src/main/viewTour/view
 > npm install
 > npm start&
-> cd ../../..
+> cd ../../../..
 ```
