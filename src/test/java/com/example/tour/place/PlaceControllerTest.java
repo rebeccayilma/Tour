@@ -2,6 +2,7 @@ package com.example.tour.place;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.example.tour.activity.ActivityController;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -47,6 +48,14 @@ class PlaceControllerTest {
 
         assertThat((placeDTOList.get(0).getName())).isEqualTo(allPlaces.get(0).getName());
         verify(placeService, times(1)).getPlaces();
+    }
+
+    @Test
+    public void testAddNewPlace(){
+        Place place = stubPlace("NewPlace 2", 21.36, 50.36, "Welcome to Nairobi");
+        placeController.addNewPlace(place);
+        verify(placeService, times(1)).addNewPlace(place);
+
     }
 
     private Place stubPlace(String name, double latitude, double longitude, String desc) {

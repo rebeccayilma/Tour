@@ -2,7 +2,6 @@ package com.example.tour.authentication.controller;
 
 import static org.junit.jupiter.api.Assertions.*;
 import com.example.tour.activity.ActivityController;
-import com.example.tour.authentication.domain.Role;
 import com.example.tour.authentication.domain.UserDTO;
 import com.example.tour.authentication.model.User;
 import com.example.tour.authentication.service.UserService;
@@ -43,10 +42,7 @@ class UserControllerTest {
     }
 
     public UserDTO stubUserDTO() {
-        UserDTO userDTO = new UserDTO();
-        userDTO.setUsername("prossie");
-        userDTO.setPassword("secret");
-        userDTO.setRole(Role.ADMIN);
+        UserDTO userDTO = new UserDTO("prossie", "secret");
         return userDTO;
     }
 
