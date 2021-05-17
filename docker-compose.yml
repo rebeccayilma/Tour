@@ -1,0 +1,29 @@
+version: "3"
+services:
+  tour:
+    restart: always
+    build:
+      dockerfile: ./Dockerfile
+    image: tour
+    ports:
+      - "8080:8080"
+    networks:
+      - tour-mysql
+    depends_on:
+      - docker-mysql
+    environment:
+        spring.datasource.url: "jdbc:mysql://docker-mysql/tourdb?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true"
+
+  docker-mysql:
+    restart: always
+    image: mysql:8
+    networks:
+      - tour-mysql
+    ports:
+      - "8306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+      - MYSQL_DATABASE=tourdb
+
+networks:
+  tour-mysql:
