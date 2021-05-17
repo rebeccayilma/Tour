@@ -19,7 +19,7 @@ pipeline {
           steps {
             bat 'docker build -t natiaddis/tour-app .'
             bat 'docker tag natiaddis/tour-app  natiaddis/tour-app:v1'
-            bat 'docker push natiaddis/tour-app:v1'
+            bat 'echo "docker push natiaddis/tour-app:v1"'
           }
         }
 
