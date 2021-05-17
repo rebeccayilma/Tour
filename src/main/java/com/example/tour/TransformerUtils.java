@@ -26,7 +26,6 @@ public class TransformerUtils {
         ActivityDTO activityDTO = new ActivityDTO();
         BeanUtils.copyProperties(activity, activityDTO, "place", "ratings");
         activityDTO.setPlace(createPlaceDTO(activity.getPlace()));
-        activityDTO.setRatings(createListRatingDTO(activity.getRatings()));
 
         return activityDTO;
     }

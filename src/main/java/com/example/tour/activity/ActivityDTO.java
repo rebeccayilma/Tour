@@ -19,7 +19,5 @@ public class ActivityDTO {
     private PlaceDTO place;
     @JsonProperty(value= "image_path")
     private String imagePath;
-    @JsonProperty(value= "ratings")
-    private List<RatingDTO> ratings;
 
 }
