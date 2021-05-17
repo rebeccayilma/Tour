@@ -12,11 +12,11 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 @Component
 public class Igniter implements CommandLineRunner {
-    private final UserRepository userRepository;
+    private final UserService userService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     public void run(String... args) throws Exception {
-        userRepository.save( new User("admin",bCryptPasswordEncoder.encode("pass"),"ADMIN"));
+        userService.createAdmin( new User("admin",bCryptPasswordEncoder.encode("pass"),"ADMIN"));
     }
 }

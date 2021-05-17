@@ -31,4 +31,12 @@ public class UserService {
         user.setRole("CONTRIBUTOR");
         userRepository.save(user);
     }
+
+    public void createAdmin(User user){
+        Optional<User> byUsername = userRepository.findByUsername(user.getUsername());
+        if (byUsername.isEmpty()) {
+            userRepository.save(user);
+        }
+
+    }
 }
