@@ -3,6 +3,7 @@ pipeline {
   stages {
     stage('build') {
       steps {
+        bat 'git checkout jenkins'
         bat 'gradlew build'
       }
     }
