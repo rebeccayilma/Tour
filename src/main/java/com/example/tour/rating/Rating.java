@@ -1,6 +1,7 @@
 package com.example.tour.rating;
 
 import com.example.tour.activity.Activity;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -44,7 +45,7 @@ public class Rating {
             )
 
     )
-
+    @JsonBackReference
     private Activity activity;
 
         //TODO: Person RelationShip
