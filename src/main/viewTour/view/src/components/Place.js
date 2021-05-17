@@ -58,17 +58,16 @@ export function Place(props) {
   const addActivity = () => props.func.addActivity(place);
   const selectActivity = props.func.selectActivity;
 
-  // TODO: 
-  // const listImages = place.images.map((image, _) => {
-  //   return (
-  //     <img src={image.path} placeholder={PLACEHOLDER_IMG_URL} alt="place image"/>
-  //   )
-  // });
+  const listImages = place.images.map((image, _) => {
+    return (
+      <img src={image.path ? image.path : PLACEHOLDER_IMG_URL} alt="place"/>
+    )
+  });
 
   return(
     <div>
       <div>
-        {/* TODO: {listImages} */}
+        {listImages}
         <h2>{place.name}</h2>
       </div>
       <h3>Click on an activity to see its details</h3>
