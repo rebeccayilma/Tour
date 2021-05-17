@@ -13,15 +13,15 @@ export function Activity (props) {
   return(
     <div>
       <div>
-        <img
+        <img className ="mx-20"
           src={activity.image ? activity.image.path: PLACEHOLDER_IMG_URL}
           alt="Activity"
           onClick={() => seeRatings(activity)}
         />
-        <h2 onClick={() => seeRatings(activity)}>Activity {activity.activity_id}</h2>
+        <h2 className ="mx-20 text-gray-800 leading-relaxed mb-6" onClick={() => seeRatings(activity)}>Activity {activity.activity_id}</h2>
       </div>
       <div>
-        <p>{activity.info}</p>
+        <p className ="mx-20 text-gray-800 leading-relaxed mb-6">{activity.info}</p>
       </div>
       <hr/>
       {isContributor && (<NewRatingButton rate={() => rate(activity)}/>)}

@@ -59,11 +59,11 @@ export function Place(props) {
   const selectActivity = props.func.selectActivity;
 
   // TODO: 
-  // const listImages = place.images.map((image, _) => {
-  //   return (
-  //     <img src={image.path} placeholder={PLACEHOLDER_IMG_URL} alt="place image"/>
-  //   )
-  // });
+  const listImages = place.images.map((image, _) => {
+    return (
+      <img src={image.path} placeholder={PLACEHOLDER_IMG_URL} alt="place image"/>
+    )
+  });
 
   return(
     <div>

@@ -74,10 +74,10 @@ export function Landing(props) {
   const seeProposedActivities = props.func.seeProposedActivities;
 
   return(
-    <div className="my-16">
+    <div className="lg:text-center my-16">
       <h1 className="text-center text-gray-700">Click on a place to see its activities.</h1>
       <hr/>
-      {isAdmin && (<NewPlaceButton addPlace={addPlace}/>)}
+      {isAdmin && (<NewPlaceButton  addPlace={addPlace}/>)}
       {isAdmin && (<ProposedActivitiesButton seeProposedActivities={seeProposedActivities}/>)}
       <hr/>
       
