@@ -75,13 +75,13 @@ class ActivityControllerTest {
         Activity activity2 = stubActivity();
         activity2.setActive(true);
         List<Activity> allActivities = Arrays.asList(activity2,activity1);
-        when(activityService.getActiveActivities()).thenReturn(allActivities);
-        List<ActivityDTO> activityDTOList = activityController.listActiveActivities();
+        when(activityService.getActiveActivities(activity2.getPlace().getId())).thenReturn(allActivities);
+        List<ActivityDTO> activityDTOList = activityController.listActiveActivities(activity2.getPlace().getId());
         assertThat(activityDTOList.size()).isEqualTo(2);
         assertThat((activityDTOList.get(0).getInfo())).isEqualTo(allActivities.get(0).getInfo());
         assertTrue((allActivities.get(0).isActive()));
 
-        verify(activityService, times(1)).getActiveActivities();
+        verify(activityService, times(1)).getActiveActivities(activity1.getPlace().getId());
     }
 
     @Test

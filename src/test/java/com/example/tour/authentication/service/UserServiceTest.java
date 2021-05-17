@@ -1,29 +1,18 @@
 package com.example.tour.authentication.service;
 
-import com.example.tour.authentication.controller.UserController;
-import com.example.tour.authentication.domain.Role;
 import com.example.tour.authentication.domain.UserDTO;
 import com.example.tour.authentication.domain.UserRepository;
 import com.example.tour.authentication.model.User;
-import org.assertj.core.api.Java6Assertions;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -59,10 +48,7 @@ public class UserServiceTest {
     }
 
     public UserDTO stubUserDTO() {
-        UserDTO userDTO = new UserDTO();
-        userDTO.setUsername("prossie");
-        userDTO.setPassword("secret");
-        userDTO.setRole(Role.ADMIN);
+        UserDTO userDTO = new UserDTO("prossie", "secret");
         return userDTO;
     }
 
@@ -70,7 +56,7 @@ public class UserServiceTest {
         User user = new User();
         user.setUsername("prossie");
         user.setPassword("secret");
-        user.setRole(Role.ADMIN);
+        user.setRole("ADMIN");
         return user;
     }
 
