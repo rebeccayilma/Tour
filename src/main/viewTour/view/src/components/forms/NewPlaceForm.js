@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import '../../assets/main.css';
 
-
 export function NewPlaceForm(props) {
     const [name, setName] = useState('');
     const [latitude, setLatitude] = useState('');
