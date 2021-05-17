@@ -17,7 +17,7 @@ function Activities(props) {
           <div key={activity.activity_id}>
             <h4 onClick={() => selectActivity(activity)}>Activity {activity.id}</h4>
             <img
-              src={activity.image ? activity.image.path : PLACEHOLDER_IMG_URL}
+              src={activity.imagePath ? activity.imagePath : PLACEHOLDER_IMG_URL}
               alt="Activity image"
               onClick={() => selectActivity(activity)}
             />
@@ -58,17 +58,17 @@ export function Place(props) {
   const addActivity = () => props.func.addActivity(place);
   const selectActivity = props.func.selectActivity;
 
-  // TODO: 
+
   const listImages = place.images.map((image, _) => {
     return (
-      <img src={image.path} placeholder={PLACEHOLDER_IMG_URL} alt="place image"/>
+      <img src={image.path ? image.path : PLACEHOLDER_IMG_URL} alt="place"/>
     )
   });
 
   return(
     <div>
       <div>
-        {/* TODO: {listImages} */}
+        {listImages}
         <h2>{place.name}</h2>
       </div>
       <h3>Click on an activity to see its details</h3>
