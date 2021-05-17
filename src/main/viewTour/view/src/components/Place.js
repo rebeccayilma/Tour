@@ -17,7 +17,7 @@ function Activities(props) {
           <div key={activity.activity_id}>
             <h4 onClick={() => selectActivity(activity)}>Activity {activity.id}</h4>
             <img
-              src={activity.image ? activity.image.path : PLACEHOLDER_IMG_URL}
+              src={activity.imagePath ? activity.imagePath : PLACEHOLDER_IMG_URL}
               alt="Activity image"
               onClick={() => selectActivity(activity)}
             />
