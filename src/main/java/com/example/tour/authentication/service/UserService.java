@@ -15,7 +15,9 @@ import java.util.Optional;
 public class UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
     public User getUserByUsername(String username){
+
         return userRepository.findByUsername(username).orElseThrow(EntityNotFoundException::new);
     }
     public void createUser(UserDTO userDTO){
