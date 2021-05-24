@@ -54,6 +54,7 @@ public class Rating {
     public Rating(LocalDate date, int score, Activity activity) {
         this.date = date;
         this.score = score;
+        this.activity = activity;
         activity.addRating(this);
     }
 

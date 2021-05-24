@@ -1,4 +1,4 @@
-package com.example.tour;
+package com.example.tour.functional;
 
 import com.example.tour.activity.Activity;
 import com.example.tour.authentication.model.User;
