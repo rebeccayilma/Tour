@@ -1,5 +1,6 @@
 package com.example.tour.activity;
 
+import com.example.tour.authentication.model.User;
 import com.example.tour.place.Place;
 import com.example.tour.rating.Rating;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -57,6 +58,9 @@ public class Activity {
     @Column(name = "image_path", columnDefinition = "TEXT")
     private String imagePath;
 
+    private User proposedBy;
+    private User approvedBy;
+
     public void addRating(Rating rating){
             this.ratings.add(rating);
 
@@ -76,5 +80,21 @@ public class Activity {
 
         // Created by Contributor; needs to be approved by Admin
         this.isActive = false;
+    }
+
+    public Activity(String info, Place place, User proposedBy) {
+        this.info = info;
+        this.place = place;
+        place.addActivity(this);
+
+        this.proposedBy = proposedBy;
+
+        // Created by Contributor; needs to be approved by Admin
+        this.isActive = false;
+    }
+
+    public void approve(User user) {
+        isActive = true;
+        approvedBy = user;
     }
 }
