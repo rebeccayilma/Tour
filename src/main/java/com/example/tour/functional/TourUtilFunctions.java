@@ -82,15 +82,15 @@ public class TourUtilFunctions {
             activity -> List.of(activity).stream()
                 .flatMap(a -> a.getRatings().stream())
                 .mapToInt(r -> r.getScore())
-                .average().getAsDouble();
+                .average().orElse(0.0);
     public static final Function<Place, OptionalDouble> averageRatingActiveActivitiesInPlace =
             place -> activeActivitiesFromPlaces.apply(List.of(place)).stream()
                 .mapToDouble(averageRating)
                 .average();
 
-    public static final BiPredicate<Activity, Integer> averageRatingGreaterThanK =
+    public static final BiPredicate<Activity, Double> averageRatingGreaterThanK =
             (activity, k) -> averageRating.applyAsDouble(activity) > k;
-    public static final BiFunction<Place, Integer, List<Activity>> activitiesWithAverageRatingGreaterThanK =
+    public static final BiFunction<Place, Double, List<Activity>> activitiesWithAverageRatingGreaterThanK =
             (place, k) -> activeActivitiesFromPlaces.apply(List.of(place)).stream()
                 .filter(a -> averageRatingGreaterThanK.test(a, k))
                 .collect(Collectors.toList());
