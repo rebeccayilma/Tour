@@ -14,15 +14,25 @@ import java.util.function.*;
 import java.util.stream.Collectors;
 
 public class TourUtilFunctions {
-    /**
-     * --------------------------------------
-     */
+
     public static final Comparator<List<Activity>> byListLength = (l1, l2) -> l1.size() - l2.size();
     public static final Function<List<Place>, List<Activity>> activitiesFromPlaces = places ->
             places.stream()
                 .flatMap(p -> p.getActivities().stream())
                 .collect(Collectors.toList());
+    public static final Function<List<Place>, List<Activity>> activeActivitiesFromPlaces = places ->
+            activitiesFromPlaces.apply(places).stream()
+                .filter(Activity::isActive)
+                .collect(Collectors.toList());
 
+    public static final Function<User, List<Rating>> ratingsFromContrib =
+            contrib -> List.of(contrib).stream()
+                    .flatMap(c -> c.getRatings().stream())
+                    .collect(Collectors.toList());
+
+    /**
+     * --------------------------------------
+     */
     public static final Function<List<Place>, Optional<String>> contributorWithMoreProposedActivities = places ->
             activitiesFromPlaces.apply(places).stream()
                 .collect(Collectors.groupingBy(a -> a.getProposedBy())).entrySet().stream()
@@ -46,10 +56,6 @@ public class TourUtilFunctions {
                 .filter(a -> ratedBefore.test(a, date))
                 .collect(Collectors.toList());
 
-    public static final Function<User, List<Rating>> ratingsFromContrib =
-            contrib -> List.of(contrib).stream()
-                .flatMap(c -> c.getRatings().stream())
-                .collect(Collectors.toList());
     public static final BiPredicate<Rating, Integer> scoreHigherThan = (r, baseScore) -> r.getScore() > baseScore;
     public static final Predicate<Place> isInSouthHemisphere = p -> p.getLatitude() < 0;
     public static final BiFunction<User, Integer, List<String>> placeNamesWithContribHighRatingsInSouthHemisphere =
@@ -66,8 +72,7 @@ public class TourUtilFunctions {
      * --------------------------------------
      */
     public static final BiFunction<List<Place>, Integer, List<String>> placesWithMoreThanKActivities =
-            (places, k) -> activitiesFromPlaces.apply(places).stream()
-                .filter(Activity::isActive)
+            (places, k) -> activeActivitiesFromPlaces.apply(places).stream()
                 .collect(Collectors.groupingBy(a -> a.getPlace(), Collectors.counting())).entrySet().stream()
                 .filter(entry -> entry.getValue() > k)
                 .map(entry -> entry.getKey().getName())
@@ -79,9 +84,15 @@ public class TourUtilFunctions {
                 .mapToInt(r -> r.getScore())
                 .average().getAsDouble();
     public static final Function<Place, OptionalDouble> averageRatingActiveActivitiesInPlace =
-            place -> List.of(place).stream()
-                .flatMap(p -> p.getActivities().stream())
-                .filter(Activity::isActive)
+            place -> activeActivitiesFromPlaces.apply(List.of(place)).stream()
                 .mapToDouble(averageRating)
                 .average();
+
+    public static final BiPredicate<Activity, Integer> averageRatingGreaterThanK =
+            (activity, k) -> averageRating.applyAsDouble(activity) > k;
+    public static final BiFunction<Place, Integer, List<Activity>> activitiesWithAverageRatingGreaterThanK =
+            (place, k) -> activeActivitiesFromPlaces.apply(List.of(place)).stream()
+                .filter(a -> averageRatingGreaterThanK.test(a, k))
+                .collect(Collectors.toList());
+
 }
