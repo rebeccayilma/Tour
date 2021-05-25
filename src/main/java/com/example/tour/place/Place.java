@@ -1,5 +1,6 @@
 package com.example.tour.place;
 
+import com.example.tour.TransformerUtils;
 import com.example.tour.activity.Activity;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
@@ -16,6 +17,8 @@ import java.util.List;
         name = "place",
         uniqueConstraints = {@UniqueConstraint(name="place_name_unique", columnNames = "name")}
 )
+@Getter
+@Setter
 public class Place {
     @Id
     @SequenceGenerator(
@@ -75,5 +78,9 @@ public class Place {
 
     public void addImage(Image image) {
         this.images.add(image);
+    }
+
+    public String toString() {
+        return TransformerUtils.createPlaceDTO(this).toString();
     }
 }
