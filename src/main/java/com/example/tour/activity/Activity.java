@@ -1,5 +1,6 @@
 package com.example.tour.activity;
 
+import com.example.tour.TransformerUtils;
 import com.example.tour.authentication.model.User;
 import com.example.tour.place.Place;
 import com.example.tour.rating.Rating;
@@ -17,7 +18,8 @@ import java.util.List;
 @Entity(name = "activity")
 @Table(name = "activity")
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 public class Activity {
     @Id
     @SequenceGenerator(
@@ -88,6 +90,7 @@ public class Activity {
         place.addActivity(this);
 
         this.proposedBy = proposedBy;
+        proposedBy.addProposedActivity(this);
 
         // Created by Contributor; needs to be approved by Admin
         this.isActive = false;
@@ -96,5 +99,10 @@ public class Activity {
     public void approve(User user) {
         isActive = true;
         approvedBy = user;
+        user.addApprovedActivity(this);
+    }
+
+    public String toString() {
+        return TransformerUtils.createActivityDTO(this).toString();
     }
 }

@@ -70,6 +70,7 @@ public class MemoryBank {
                 // Place 5 (New Delhi) has no activities
         );
 
+        activities.get(0).approve(admins.get(0));
         activities.get(2).approve(admins.get(0));
         activities.get(3).approve(admins.get(0));
         activities.get(4).approve(admins.get(0));
@@ -88,40 +89,40 @@ public class MemoryBank {
 
 
         ratings = List.of(
-                new Rating(LocalDate.of(2021, 5, 12), 4, activities.get(0)),
-                new Rating(LocalDate.of(2021, 2, 11), 5, activities.get(0)),
-                new Rating(LocalDate.of(2021, 3, 23), 3, activities.get(0)),
-                new Rating(LocalDate.of(2021, 1, 19), 5, activities.get(0)),
-                new Rating(LocalDate.of(2021, 3, 31), 4, activities.get(0)),
-                new Rating(LocalDate.of(2021, 4, 30), 4, activities.get(0)),
-                new Rating(LocalDate.of(2020, 9, 20), 5, activities.get(0)),
-                new Rating(LocalDate.of(2020, 8, 1), 4, activities.get(0)),
-                new Rating(LocalDate.of(2021, 3, 13), 4, activities.get(0)),
-                new Rating(LocalDate.of(2021, 2, 14), 3, activities.get(0)),
+                new Rating(LocalDate.of(2021, 5, 12), 4, activities.get(0), contribs.get(0)),
+                new Rating(LocalDate.of(2021, 2, 11), 5, activities.get(0), contribs.get(0)),
+                new Rating(LocalDate.of(2021, 3, 23), 3, activities.get(0), contribs.get(0)),
+                new Rating(LocalDate.of(2021, 1, 19), 5, activities.get(0), contribs.get(0)),
+                new Rating(LocalDate.of(2021, 3, 31), 4, activities.get(0), contribs.get(0)),
+                new Rating(LocalDate.of(2021, 4, 30), 4, activities.get(0), contribs.get(0)),
+                new Rating(LocalDate.of(2020, 9, 20), 5, activities.get(0), contribs.get(0)),
+                new Rating(LocalDate.of(2020, 8, 1), 4, activities.get(0), contribs.get(0)),
+                new Rating(LocalDate.of(2021, 3, 13), 4, activities.get(0), contribs.get(0)),
+                new Rating(LocalDate.of(2021, 2, 14), 3, activities.get(0), contribs.get(1)),
 
-                new Rating(LocalDate.of(2021, 6, 12), 1, activities.get(5)),
-                new Rating(LocalDate.of(2021, 6, 12), 2, activities.get(5)),
-                new Rating(LocalDate.of(2021, 6, 12), 1, activities.get(5)),
-                new Rating(LocalDate.of(2021, 6, 12), 1, activities.get(5)),
-                new Rating(LocalDate.of(2021, 6, 12), 1, activities.get(5)),
-                new Rating(LocalDate.of(2021, 6, 12), 1, activities.get(5)),
+                new Rating(LocalDate.of(2021, 6, 12), 1, activities.get(5), contribs.get(1)),
+                new Rating(LocalDate.of(2021, 6, 12), 2, activities.get(5), contribs.get(1)),
+                new Rating(LocalDate.of(2021, 6, 12), 1, activities.get(5), contribs.get(2)),
+                new Rating(LocalDate.of(2021, 6, 12), 1, activities.get(5), contribs.get(2)),
+                new Rating(LocalDate.of(2021, 6, 12), 1, activities.get(5), contribs.get(2)),
+                new Rating(LocalDate.of(2021, 6, 12), 1, activities.get(5), contribs.get(2)),
 
-                new Rating(LocalDate.of(2021, 6, 12), 5, activities.get(6)),
-                new Rating(LocalDate.of(2021, 6, 12), 4, activities.get(6)),
+                new Rating(LocalDate.of(2021, 6, 12), 5, activities.get(6), contribs.get(3)),
+                new Rating(LocalDate.of(2021, 6, 12), 4, activities.get(6), contribs.get(3)),
 
-                new Rating(LocalDate.of(2021, 6, 12), 5, activities.get(7)),
-                new Rating(LocalDate.of(2021, 6, 12), 5, activities.get(7)),
-                new Rating(LocalDate.of(2021, 6, 12), 5, activities.get(7)),
+                new Rating(LocalDate.of(2021, 6, 12), 5, activities.get(7), contribs.get(4)),
+                new Rating(LocalDate.of(2021, 6, 12), 5, activities.get(7), contribs.get(4)),
+                new Rating(LocalDate.of(2021, 6, 12), 5, activities.get(7), contribs.get(4)),
 
-                new Rating(LocalDate.of(2021, 6, 12), 1, activities.get(8)),
-                new Rating(LocalDate.of(2021, 6, 12), 2, activities.get(8)),
-                new Rating(LocalDate.of(2021, 6, 12), 3, activities.get(8)),
-                new Rating(LocalDate.of(2021, 6, 12), 4, activities.get(8)),
-                new Rating(LocalDate.of(2021, 6, 12), 5, activities.get(8)),
-                new Rating(LocalDate.of(2021, 6, 12), 4, activities.get(8)),
-                new Rating(LocalDate.of(2021, 6, 12), 3, activities.get(8)),
-                new Rating(LocalDate.of(2021, 6, 12), 2, activities.get(8)),
-                new Rating(LocalDate.of(2021, 6, 12), 1, activities.get(8))
+                new Rating(LocalDate.of(2021, 6, 12), 1, activities.get(8), contribs.get(6)),
+                new Rating(LocalDate.of(2021, 6, 12), 2, activities.get(8), contribs.get(6)),
+                new Rating(LocalDate.of(2021, 6, 12), 3, activities.get(8), contribs.get(6)),
+                new Rating(LocalDate.of(2021, 6, 12), 4, activities.get(8), contribs.get(6)),
+                new Rating(LocalDate.of(2021, 6, 12), 5, activities.get(8), contribs.get(6)),
+                new Rating(LocalDate.of(2021, 6, 12), 4, activities.get(8), contribs.get(6)),
+                new Rating(LocalDate.of(2021, 6, 12), 3, activities.get(8), contribs.get(6)),
+                new Rating(LocalDate.of(2021, 6, 12), 2, activities.get(8), contribs.get(6)),
+                new Rating(LocalDate.of(2021, 6, 12), 1, activities.get(8), contribs.get(6))
         );
     }
 

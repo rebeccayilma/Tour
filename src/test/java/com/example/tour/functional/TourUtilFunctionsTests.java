@@ -100,7 +100,7 @@ public class TourUtilFunctionsTests {
         List<Place> places = MemoryBank.getPlaces();
         User admin = MemoryBank.getAdmins().get(0);
 
-        Assertions.assertEquals(activitiesApprovedByAdmin.apply(places, admin), 4);
+        Assertions.assertEquals(activitiesApprovedByAdminInPlaces.apply(places, admin), 4);
     }
 
     @Test
@@ -108,7 +108,7 @@ public class TourUtilFunctionsTests {
         List<Place> places = MemoryBank.getPlaces();
         User admin = new User("thisUser", "thisPass", "ADMIN");
 
-        Assertions.assertEquals(activitiesApprovedByAdmin.apply(places, admin), 0);
+        Assertions.assertEquals(activitiesApprovedByAdminInPlaces.apply(places, admin), 0);
     }
 
     /**
@@ -172,4 +172,74 @@ public class TourUtilFunctionsTests {
 
         Assertions.assertEquals(activities.size(), 0);
     }
+
+    /**
+     * --------------------------------------
+     */
+    @Test
+    public void testRatingsFromContrib() {
+        User contributor = MemoryBank.getContributors().get(0);
+
+        List<Rating> ratingsFromMethod = contributor.getRatings();
+        List<Rating> ratingsFromFunction = ratingsFromContrib.apply(contributor);
+
+        Assertions.assertEquals(ratingsFromFunction.size(), ratingsFromMethod.size());
+        Assertions.assertTrue(ratingsFromFunction.containsAll(ratingsFromMethod));
+    }
+
+    /**
+     * --------------------------------------
+     */
+    @Test
+    public void testScoreHigherThanHigher() {
+        Rating r = new Rating(LocalDate.now(), 5, MemoryBank.getActivities().get(0));
+        Assertions.assertTrue(scoreHigherThan.test(r, 4));
+    }
+
+    @Test
+    public void testScoreHigherThanEqual() {
+        Rating r = new Rating(LocalDate.now(), 4, MemoryBank.getActivities().get(0));
+        Assertions.assertFalse(scoreHigherThan.test(r, 4));
+    }
+
+    @Test
+    public void testScoreHigherThanLower() {
+        Rating r = new Rating(LocalDate.now(), 3, MemoryBank.getActivities().get(0));
+        Assertions.assertFalse(scoreHigherThan.test(r, 4));
+    }
+
+    /**
+     * --------------------------------------
+     */
+    @Test
+    public void testIsInSouthHemisphereSouth() {
+        Place p = new Place("Southern", -150, 32, "Place in southern hem.");
+        Assertions.assertTrue(isInSouthHemisphere.test(p));
+    }
+
+    @Test
+    public void testIsInSouthHemisphereNorth() {
+        Place p = new Place("Southern", 150, 32, "Place in southern hem.");
+        Assertions.assertFalse(isInSouthHemisphere.test(p));
+    }
+
+    @Test
+    public void testIsInSouthHemisphereEquator() {
+        Place p = new Place("Southern", 0, 32, "Place in southern hem.");
+        Assertions.assertFalse(isInSouthHemisphere.test(p));
+    }
+
+    /**
+     * --------------------------------------
+     */
+    @Test
+    public void testPlaceNamesWithContribHighRatingsInSouthHemisphere() {
+        User contributor = MemoryBank.getContributors().get(3);
+        Integer baseRating = 3;
+        List<String> places = placeNamesWithContribHighRatingsInSouthHemisphere.apply(contributor, baseRating);
+
+        Assertions.assertEquals(places.size(), 1);
+        Assertions.assertEquals(places.get(0), "Buenos Aires");
+    }
+
 }
