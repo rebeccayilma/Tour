@@ -241,5 +241,4 @@ public class TourUtilFunctionsTests {
         Assertions.assertEquals(places.size(), 1);
         Assertions.assertEquals(places.get(0), "Buenos Aires");
     }
-
 }

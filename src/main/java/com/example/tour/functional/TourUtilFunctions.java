@@ -46,7 +46,6 @@ public class TourUtilFunctions {
                 .filter(a -> ratedBefore.test(a, date))
                 .collect(Collectors.toList());
 
-
     public static final Function<User, List<Rating>> ratingsFromContrib =
             contrib -> List.of(contrib).stream()
                 .flatMap(c -> c.getRatings().stream())
