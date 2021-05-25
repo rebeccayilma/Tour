@@ -27,7 +27,14 @@ public class FunctionalMain {
                     "\tc) Given a User which is a Contributor and a base score, get the list of places' names in the South Hemisphere in which they have rated an activity greater than said score");
 
             System.out.println(
-                    "\tx) Given a User which is a Contributor and a base score, get the list of places' names in the South Hemisphere in which they have rated an activity greater than said score");
+                    "\tl) Given a place and a base rating, get all activities with average rating greater than the base");
+            System.out.println(
+                    "\tm) Given a place, get the average rating of all its active activities");
+            System.out.println(
+                    "\tn) Given a list of places and a base number of acceptance, get those places that have at least that base number of active activities");
+
+            System.out.println(
+                    "\tx) Exit");
 
             // ---WAIT-INPUT---
             System.out.println("Your option:");
@@ -35,6 +42,7 @@ public class FunctionalMain {
 
             // ---PROCESSING---
             List<Place> places;
+            Place place;
             User contributor;
             switch (option) {
                 case 'a':
@@ -59,6 +67,27 @@ public class FunctionalMain {
 
                     // Expected output: [Buenos Aires]
                     System.out.println(placeNamesWithContribHighRatingsInSouthHemisphere.apply(contributor, 3));
+                    break;
+                case 'l':
+                    System.out.println("Looking for activities with average rating greater than 3");
+                    place = MemoryBank.getPlaces().get(0);
+
+                    // Expected output: [Id: null, info: Great Activity 0, active: true, place: Fairfield]
+                    System.out.println(activitiesWithAverageRatingGreaterThanK.apply(place, 3.0));
+                    break;
+                case 'm':
+                    System.out.println("Looking for average rating of active activities");
+                    place = MemoryBank.getPlaces().get(0);
+
+                    // Expected output: [1.0533333333333332]
+                    System.out.println(averageRatingActiveActivitiesInPlace.apply(place));
+                    break;
+                case 'n':
+                    System.out.println("Looking for places with more than 2 active activities");
+                    places = MemoryBank.getPlaces();
+
+                    // Expected output: [Fairfield, Kigali]
+                    System.out.println(placesWithMoreThanKActivities.apply(places, 2));
                     break;
                 // ADD MORE FUNCTIONS HERE
                 case 'x':
