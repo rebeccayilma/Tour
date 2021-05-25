@@ -100,7 +100,9 @@ public class TourUtilFunctionsTests {
         List<Place> places = MemoryBank.getPlaces();
         User admin = MemoryBank.getAdmins().get(0);
 
-        Assertions.assertEquals(activitiesApprovedByAdminInPlaces.apply(places, admin), 4);
+        int approved = admin.getApprovedActivities().size();
+
+        Assertions.assertEquals(activitiesApprovedByAdminInPlaces.apply(places, admin), approved);
     }
 
     @Test
@@ -160,7 +162,7 @@ public class TourUtilFunctionsTests {
         }
 
         Assertions.assertEquals(activities.size(), checkList.size());
-        Assertions.assertTrue(activities.containsAll(Arrays.asList(checkList.toArray())));
+        Assertions.assertTrue(activities.containsAll(checkList));
     }
 
     @Test
@@ -238,7 +240,147 @@ public class TourUtilFunctionsTests {
         Integer baseRating = 3;
         List<String> places = placeNamesWithContribHighRatingsInSouthHemisphere.apply(contributor, baseRating);
 
-        Assertions.assertEquals(places.size(), 1);
-        Assertions.assertEquals(places.get(0), "Buenos Aires");
+        List<Rating> ratings = contributor.getRatings();
+
+        HashSet<String> checkList = new HashSet<>();
+        for (Rating r: ratings) {
+            Place p = r.getActivity().getPlace();
+            if (p.getLatitude() < 0) {
+                checkList.add(p.getName());
+            }
+        }
+
+        Assertions.assertEquals(places.size(), checkList.size());
+        Assertions.assertTrue(places.containsAll(checkList));
+    }
+
+    /**
+     * --------------------------------------
+     */
+    @Test
+    public void testPlacesWithMoreThanKActivities() {
+        List<Place> places = MemoryBank.getPlaces();
+        int k = 3;
+
+        List<String> result = placesWithMoreThanKActivities.apply(places, k);
+
+        HashSet<String> compareSet = new HashSet<>();
+        for (Place p: places) {
+            int count = 0;
+            List<Activity> acts = p.getActivities();
+            for (Activity a: acts) {
+                if (a.isActive()) count++;
+            }
+            if (count > k) {
+                compareSet.add(p.getName());
+            }
+        }
+
+        Assertions.assertEquals(result.size(), compareSet.size());
+        Assertions.assertTrue(result.containsAll(compareSet));
+    }
+
+    /**
+     * --------------------------------------
+     */
+
+    private Double getCompareDouble(Activity activity) {
+        double compareDouble = 0.0;
+        for (Rating r: activity.getRatings()) {
+            compareDouble += r.getScore();
+        }
+        if (activity.getRatings().size() > 0) {
+            compareDouble /= activity.getRatings().size();
+        }
+
+        return compareDouble;
+    }
+
+    private Double getCompareDouble(Place place) {
+        Double compareDouble = 0.0;
+        int count = 0;
+        for (Activity a: place.getActivities()) {
+            if (a.isActive()) {
+                compareDouble += getCompareDouble(a);
+                count++;
+            }
+        }
+        if (count > 0) {
+            compareDouble /= count;
+        }
+
+        return compareDouble;
+    }
+
+    @Test
+    public void testAverageRating() {
+        Activity activity = MemoryBank.getActivities().get(0);
+        Double result = averageRating.applyAsDouble(activity);
+
+        Double compareDouble = getCompareDouble(activity);
+
+        Assertions.assertEquals(result, compareDouble);
+    }
+
+    /**
+     * --------------------------------------
+     */
+    @Test
+    public void testAverageRatingGreaterThanGreater() {
+        Activity a = MemoryBank.getActivities().get(0);
+        Double compareDouble = getCompareDouble(a) - 1;
+
+        Assertions.assertTrue(averageRatingGreaterThanK.test(a, compareDouble));
+    }
+
+    @Test
+    public void testAverageRatingGreaterThanEqual() {
+        Activity a = MemoryBank.getActivities().get(0);
+        Double compareDouble = getCompareDouble(a);
+
+        Assertions.assertFalse(averageRatingGreaterThanK.test(a, compareDouble));
+    }
+
+    @Test
+    public void testAverageRatingGreaterThanLower() {
+        Activity a = MemoryBank.getActivities().get(0);
+        Double compareDouble = getCompareDouble(a) + 1;
+
+        Assertions.assertFalse(averageRatingGreaterThanK.test(a, compareDouble));
+    }
+
+
+    /**
+     * --------------------------------------
+     */
+    @Test
+    public void testAverageRatingActiveActivitiesInPlace() {
+        Place place = MemoryBank.getPlaces().get(2);
+
+        Double result = averageRatingActiveActivitiesInPlace.apply(place).getAsDouble();
+        Double compareDouble = getCompareDouble(place);
+
+        Assertions.assertEquals(result, compareDouble);
+    }
+
+    /**
+     * --------------------------------------
+     */
+    @Test
+    public void testActivitiesWithAverageRatingGreaterThanK() {
+        Place place = MemoryBank.getPlaces().get(0);
+        double k = 3.0;
+
+        List<Activity> result = activitiesWithAverageRatingGreaterThanK.apply(place, k);
+
+        HashSet<Activity> compareSet = new HashSet<>();
+        for (Activity a: place.getActivities()) {
+            if (getCompareDouble(a) > k) {
+                compareSet.add(a);
+            }
+        }
+
+        Assertions.assertEquals(result.size(), compareSet.size());
+        Assertions.assertTrue(result.containsAll(compareSet));
     }
 }
