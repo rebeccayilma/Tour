@@ -9,14 +9,14 @@ import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.BiFunction;
-import java.util.function.BiPredicate;
-import java.util.function.Function;
-import java.util.function.Predicate;
+import java.util.OptionalDouble;
+import java.util.function.*;
 import java.util.stream.Collectors;
 
 public class TourUtilFunctions {
-
+    /**
+     * --------------------------------------
+     */
     public static final Comparator<List<Activity>> byListLength = (l1, l2) -> l1.size() - l2.size();
     public static final Function<List<Place>, List<Activity>> activitiesFromPlaces = places ->
             places.stream()
@@ -61,4 +61,27 @@ public class TourUtilFunctions {
                 .filter(isInSouthHemisphere)
                 .map(p -> p.getName())
                 .collect(Collectors.toList());
+
+    /**
+     * --------------------------------------
+     */
+    public static final BiFunction<List<Place>, Integer, List<String>> placesWithMoreThanKActivities =
+            (places, k) -> activitiesFromPlaces.apply(places).stream()
+                .filter(Activity::isActive)
+                .collect(Collectors.groupingBy(a -> a.getPlace(), Collectors.counting())).entrySet().stream()
+                .filter(entry -> entry.getValue() > k)
+                .map(entry -> entry.getKey().getName())
+                .collect(Collectors.toList());
+
+    public static final ToDoubleFunction<Activity> averageRating =
+            activity -> List.of(activity).stream()
+                .flatMap(a -> a.getRatings().stream())
+                .mapToInt(r -> r.getScore())
+                .average().getAsDouble();
+    public static final Function<Place, OptionalDouble> averageRatingActiveActivitiesInPlace =
+            place -> List.of(place).stream()
+                .flatMap(p -> p.getActivities().stream())
+                .filter(Activity::isActive)
+                .mapToDouble(averageRating)
+                .average();
 }
