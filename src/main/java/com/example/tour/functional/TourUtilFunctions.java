@@ -99,18 +99,19 @@ public class TourUtilFunctions {
      * --------------------------------------
      */
 
-    public static final BiFunction<List<Place>, Long, List<String>> starUsers = (places, year) -> activeActivitiesFromPlaces.apply(places).stream()
+    public static final BiFunction<List<Place>, LocalDate, List<String>> starUsers = (places, date) -> activeActivitiesFromPlaces.apply(places).stream()
+            .filter(y -> ratedBefore.test(y,date))
             .filter(a -> averageRatingGreaterThanK.test(a, 4D))
             .map(u->u.getProposedBy().getUsername())
             .collect(Collectors.toList());
 
-    public static final Function<List<Activity>, Long> countOfNotApprovedActivities = activities -> activities.stream()
+    public static final Function<Place, Long> countOfNotApprovedActivities = place -> activitiesFromPlaces.apply(List.of(place)).stream()
             .filter(r->r.isActive()==false)
             .count();
-    public static final Function<List<Activity>, Long> countOfAllActivities = activities -> activities.stream()
+    public static final Function<Place, Long> countOfAllActivities = place -> activitiesFromPlaces.apply(List.of(place)).stream()
             .count();
-    public static final Function<List<Activity>, Double> percentageOfNotApprovedActivities = activities -> (countOfNotApprovedActivities.apply(activities).doubleValue()
-            /countOfAllActivities.apply(activities).doubleValue()) * 100;
+    public static final Function<Place, Double> percentageOfNotApprovedActivities = place -> countOfNotApprovedActivities.apply(place).doubleValue()
+            /countOfAllActivities.apply(place).doubleValue() * 100;
 
 }
 
