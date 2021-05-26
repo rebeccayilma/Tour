@@ -95,4 +95,22 @@ public class TourUtilFunctions {
                 .filter(a -> averageRatingGreaterThanK.test(a, k))
                 .collect(Collectors.toList());
 
+    /**
+     * --------------------------------------
+     */
+
+    public static final BiFunction<List<Place>, Long, List<String>> starUsers = (places, year) -> activeActivitiesFromPlaces.apply(places).stream()
+            .filter(a -> averageRatingGreaterThanK.test(a, 4D))
+            .map(u->u.getProposedBy().getUsername())
+            .collect(Collectors.toList());
+
+    public static final Function<List<Activity>, Long> countOfNotApprovedActivities = activities -> activities.stream()
+            .filter(r->r.isActive()==false)
+            .count();
+    public static final Function<List<Activity>, Long> countOfAllActivities = activities -> activities.stream()
+            .count();
+    public static final Function<List<Activity>, Double> percentageOfNotApprovedActivities = activities -> (countOfNotApprovedActivities.apply(activities).doubleValue()
+            /countOfAllActivities.apply(activities).doubleValue()) * 100;
+
 }
+
