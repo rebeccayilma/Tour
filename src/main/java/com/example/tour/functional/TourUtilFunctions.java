@@ -95,4 +95,59 @@ public class TourUtilFunctions {
                 .filter(a -> averageRatingGreaterThanK.test(a, k))
                 .collect(Collectors.toList());
 
+    /**
+     * --------------------------------------
+     */
+
+    public static final QuadPredicate<Place, Double, Double,  Double> placeInsideAnAreaOfRadius =
+            (place, radius, lat, lon) ->
+                    Math.pow((place.getLatitude() - lat)*111, 2) + Math.pow((place.getLatitude() - lat)*111, 2) <= radius;
+
+    public static final Function<Place, List<Activity>> activeActivitiesFromPlace = place ->
+            place.getActivities().stream()
+                    .filter(Activity::isActive)
+                    .collect(Collectors.toList());
+
+    public static final PentFunction<List<Place>, Double, Double, Double, Integer, List<String>> topKActivitiesNearMe =
+        (places, radius, lat, lon, k) -> places.stream()
+            .filter(p -> placeInsideAnAreaOfRadius.test(p, radius, lat, lon))
+            .flatMap(p -> activeActivitiesFromPlace.apply(p).stream())
+            .sorted(Comparator.comparingDouble(averageRating::applyAsDouble).reversed())
+            .limit(k)
+            .map(a -> a.getInfo())
+            .collect(Collectors.toList());
+
+    public static final QuadFunction<List<Place>, Double, Double, Double, List<String>> top5ActivitiesNearMe =
+            (places, radius, lat, lon) -> topKActivitiesNearMe.apply(places, radius, lat, lon, 5);
+
+    public static final TriFunction<List<Place>, Double, Double, List<String>> top5ActivitiesInside10KmRadius =
+            (places, lat, lon) -> top5ActivitiesNearMe.apply(places, 10.0, lat, lon);
+
+    public static final ToDoubleFunction<List<Activity>> averageRatingOfActivities =
+            activities -> activities.stream()
+                    .mapToDouble(averageRating)
+                    .average()
+                    .orElse(0.0);
+
+    public static final Comparator<List<Activity>> byAverageRating = (al1,al2) ->
+            (int) (averageRatingOfActivities.applyAsDouble(al1) - averageRatingOfActivities.applyAsDouble(al2));
+
+    public static final Function<List<Place>, String> worstAdmin = places ->
+            activeActivitiesFromPlaces.apply(places).stream()
+                    .filter(a -> a.getRatings().size() > 0)
+                    .collect(Collectors.groupingBy(a -> a.getApprovedBy())).entrySet().stream()
+                    .min((e1,e2) -> byAverageRating.compare(e1.getValue(), e2.getValue()))
+                    .map(entry -> entry.getKey().getUsername())
+                    .orElse(null);
+
+    public static final BiFunction<List<Place>, Integer, List<String>> mostRecentAndHighlyRatedKActivities = (places, k) ->
+            activeActivitiesFromPlaces.apply(places).stream()
+            .sorted(Comparator.comparing(Activity::getCreatedDate).reversed()
+                    .thenComparing(Comparator.comparingDouble(averageRating::applyAsDouble).reversed()))
+            .limit(k)
+            .map(a -> a.getInfo())
+            .collect(Collectors.toList());
+
+    public static final Function<List<Place>, List<String>> mostRecentAndHighlyRated5Activities = (places) ->
+            mostRecentAndHighlyRatedKActivities.apply(places, 5);
 }

@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,6 +64,8 @@ public class Activity {
     private User proposedBy;
     private User approvedBy;
 
+    private LocalDate createdDate;
+
     public void addRating(Rating rating){
             this.ratings.add(rating);
 
@@ -91,6 +94,20 @@ public class Activity {
 
         this.proposedBy = proposedBy;
         proposedBy.addProposedActivity(this);
+
+        // Created by Contributor; needs to be approved by Admin
+        this.isActive = false;
+    }
+
+    public Activity(String info, Place place, User proposedBy, LocalDate createdDate) {
+        this.info = info;
+        this.place = place;
+        place.addActivity(this);
+
+        this.proposedBy = proposedBy;
+        proposedBy.addProposedActivity(this);
+
+        this.createdDate = createdDate;
 
         // Created by Contributor; needs to be approved by Admin
         this.isActive = false;

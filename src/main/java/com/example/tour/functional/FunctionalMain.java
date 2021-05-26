@@ -34,6 +34,15 @@ public class FunctionalMain {
                     "\tn) Given a list of places and a base number of acceptance, get those places that have at least that base number of active activities");
 
             System.out.println(
+                    "\to) Given places, radius and location(lat, long), get k highly-rated activities found in the area covered by the given radius from the given location");
+            System.out.println(
+                    "\tp) Given places, radius and location(lat, long), get top 5 activities found in the area covered by the given radius from the given location");
+            System.out.println(
+                    "\tq) Given places, find the admin who approved the lowest-rated activities");
+            System.out.println(
+                    "\tr) find activities that are the most recent and are highly rated");
+
+            System.out.println(
                     "\tx) Exit");
 
             // ---WAIT-INPUT---
@@ -88,6 +97,34 @@ public class FunctionalMain {
 
                     // Expected output: [Fairfield, Kigali]
                     System.out.println(placesWithMoreThanKActivities.apply(places, 2));
+                    break;
+                case 'o':
+                    System.out.println("Looking for highly rated activities in the area");
+                    places = MemoryBank.getPlaces();
+
+                    // Expected output: [Great Activity 0, Activity]
+                    System.out.println(topKActivitiesNearMe.apply(places, 10.0, 41.01, 92.01, 2));
+                    break;
+                case 'p':
+                    System.out.println("Looking for top 5 rated activities in the area");
+                    places = MemoryBank.getPlaces();
+
+                    // Expected output: [Great Activity 0, Activity, Great Activity 2, Great Activity with really really really long description, Great Activity with not so long description]
+                    System.out.println(top5ActivitiesInside10KmRadius.apply(places, 41.01, 92.01));
+                    break;
+                case 'q':
+                    System.out.println("Looking for worst Admin (admin who has the list rated activities approved by him)");
+                    places = MemoryBank.getPlaces();
+
+                    // Expected output: admin0
+                    System.out.println(worstAdmin.apply(places));
+                    break;
+                case 'r':
+                    System.out.println("Looking for most recent and highly rated activities");
+                    places = MemoryBank.getPlaces();
+
+                    // Expected output: [Great Activity 2, Great Activity with really really really long description, Great Activity with not so long description, Kayak, Football]
+                    System.out.println(mostRecentAndHighlyRatedKActivities.apply(places, 5));
                     break;
                 // ADD MORE FUNCTIONS HERE
                 case 'x':

@@ -47,27 +47,26 @@ public class MemoryBank {
         );
 
         activities = List.of(
-                new Activity("Great Activity 0", places.get(0), contribs.get(0)),
-                new Activity("Great Activity 1", places.get(0), contribs.get(0)),
-                new Activity("Great Activity 2", places.get(0), contribs.get(0)),
-                new Activity("Great Activity with really really really long description", places.get(0), contribs.get(0)),
-                new Activity("Great Activity with not so long description", places.get(0), contribs.get(0)),
-                new Activity("Activity", places.get(0), contribs.get(1)),
+                new Activity("Great Activity 0", places.get(0), contribs.get(0), LocalDate.of(2020, 5, 12)),
+                new Activity("Great Activity 1", places.get(0), contribs.get(0), LocalDate.of(2021, 5, 10)),
+                new Activity("Great Activity 2", places.get(0), contribs.get(0), LocalDate.of(2021, 5, 2)),
+                new Activity("Great Activity with really really really long description", places.get(0), contribs.get(0), LocalDate.of(2021, 4, 12)),
+                new Activity("Great Activity with not so long description", places.get(0), contribs.get(0), LocalDate.of(2021, 4, 2)),
+                new Activity("Activity", places.get(0), contribs.get(1), LocalDate.of(2021, 3, 10)),
 
-                new Activity("Football", places.get(1), contribs.get(2)),
-                new Activity("Kayak", places.get(1), contribs.get(2)),
+                new Activity("Football", places.get(1), contribs.get(2), LocalDate.of(2021, 3, 10)),
+                new Activity("Kayak", places.get(1), contribs.get(2), LocalDate.of(2021, 3, 10)),
 
-                new Activity("Great Activity 3", places.get(2), contribs.get(3)),
+                new Activity("Great Activity 3", places.get(2), contribs.get(3), LocalDate.of(2021, 2, 12)),
 
-                new Activity("Great Activity 4", places.get(3), contribs.get(4)),
-                new Activity("Great Activity 5", places.get(3), contribs.get(4)),
-                new Activity("Great Activity 6", places.get(3), contribs.get(4)),
-                new Activity("Great Activity 7", places.get(3), contribs.get(5)),
+                new Activity("Great Activity 4", places.get(3), contribs.get(4), LocalDate.of(2021, 1, 12)),
+                new Activity("Great Activity 5", places.get(3), contribs.get(4), LocalDate.of(2021, 1, 12)),
+                new Activity("Great Activity 6", places.get(3), contribs.get(4), LocalDate.of(2021, 1, 12)),
+                new Activity("Great Activity 7", places.get(3), contribs.get(5), LocalDate.of(2021, 1, 12)),
 
-                new Activity("Great Activity 8", places.get(4), contribs.get(0)),
-                new Activity("Great Activity 9", places.get(4), contribs.get(6))
+                new Activity("Great Activity 8", places.get(4), contribs.get(0), LocalDate.of(2021, 1, 12)),
+                new Activity("Great Activity 9", places.get(4), contribs.get(6), LocalDate.of(2021, 1, 12))
 
-                // Place 5 (New Delhi) has no activities
         );
 
         activities.get(0).approve(admins.get(0));
