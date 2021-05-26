@@ -283,7 +283,17 @@ public class TourUtilFunctionsTests {
     /**
      * --------------------------------------
      */
+    private Double getCompareDouble(List<Activity> activities) {
+        double compareDouble = 0.0;
+        for (Activity a: activities) {
+            compareDouble += getCompareDouble(a);
+        }
+        if (activities.size() > 0) {
+            compareDouble /= activities.size();
+        }
 
+        return compareDouble;
+    }
     private Double getCompareDouble(Activity activity) {
         double compareDouble = 0.0;
         for (Rating r: activity.getRatings()) {
@@ -383,4 +393,134 @@ public class TourUtilFunctionsTests {
         Assertions.assertEquals(result.size(), compareSet.size());
         Assertions.assertTrue(result.containsAll(compareSet));
     }
+
+    /**
+     * --------------------------------------
+     */
+
+    @Test
+    public void testActiveActivitiesInPlace() {
+        Place place = MemoryBank.getPlaces().get(0);
+        List<Activity> actual = List.of(
+                MemoryBank.getActivities().get(0),
+                MemoryBank.getActivities().get(2),
+                MemoryBank.getActivities().get(3),
+                MemoryBank.getActivities().get(4),
+                MemoryBank.getActivities().get(5)
+        );
+        List<Activity> result = activeActivitiesFromPlace.apply(place);
+
+        Assertions.assertEquals(result.size(), actual.size());
+        Assertions.assertTrue(result.containsAll(actual));
+    }
+    @Test
+    public void testAverageRatingActiveActivities() {
+        Place place = MemoryBank.getPlaces().get(1);
+        List<Activity> activities = activeActivitiesFromPlace.apply(place);
+
+        Double result = averageRatingOfActivities.applyAsDouble(activities);
+        Double actual = getCompareDouble(activities);
+
+        Assertions.assertEquals(result, actual);
+    }
+
+    @Test
+    public void testTopKActivitiesNearMe() {
+        List<Place> places = MemoryBank.getPlaces();
+        double lat = 41.01;
+        double lon = 92.01;
+        double radius = 10.0;
+        int k = 2;
+
+        List<String> result = topKActivitiesNearMe.apply(places, radius, lat, lon, k);
+
+        Assertions.assertEquals(result.size(), k);
+        Assertions.assertTrue(result.containsAll(List.of("Great Activity 0", "Activity")));
+    }
+
+    @Test
+    public void testTop5ActivitiesNearMe() {
+        List<Place> places = MemoryBank.getPlaces();
+        double lat = 41.01;
+        double lon = 92.01;
+        double radius = 10.0;
+
+        List<String> result = top5ActivitiesNearMe.apply(places, radius, lat, lon);
+        List<String> actual = List.of(
+                MemoryBank.getActivities().get(0).getInfo(),
+                MemoryBank.getActivities().get(5).getInfo(),
+                MemoryBank.getActivities().get(2).getInfo(),
+                MemoryBank.getActivities().get(3).getInfo(),
+                MemoryBank.getActivities().get(4).getInfo()
+        );
+        Assertions.assertEquals(result.size(), actual.size());
+        Assertions.assertTrue(result.containsAll(actual));
+        for (int i = 0; i< result.size() -1; i++){
+            Assertions.assertTrue(result.get(i).equals(actual.get(i)));
+        }
+    }
+
+    @Test
+    public void testTop5ActivitiesIn10kmRadius() {
+        List<Place> places = MemoryBank.getPlaces();
+        double lat = 41.01;
+        double lon = 92.01;
+
+        List<String> result = top5ActivitiesInside10KmRadius.apply(places, lat, lon);
+        List<String> actual = List.of(
+                MemoryBank.getActivities().get(0).getInfo(),
+                MemoryBank.getActivities().get(5).getInfo(),
+                MemoryBank.getActivities().get(2).getInfo(),
+                MemoryBank.getActivities().get(3).getInfo(),
+                MemoryBank.getActivities().get(4).getInfo()
+        );
+        Assertions.assertEquals(result.size(), actual.size());
+        Assertions.assertTrue(result.containsAll(actual));
+    }
+
+    @Test
+    public void testWorstAdmin() {
+        List<Place> places = MemoryBank.getPlaces();
+        String actual = MemoryBank.getAdmins().get(0).getUsername();
+        String result = worstAdmin.apply(places);
+
+        Assertions.assertEquals(result, actual);
+    }
+
+    @Test
+    public void testMostRecentAndHighlyRatedKActivities() {
+        List<Place> places = MemoryBank.getPlaces();
+        int k = 5;
+        List<String> actual = List.of(
+                MemoryBank.getActivities().get(2).getInfo(),
+                MemoryBank.getActivities().get(3).getInfo(),
+                MemoryBank.getActivities().get(4).getInfo(),
+                MemoryBank.getActivities().get(6).getInfo(),
+                MemoryBank.getActivities().get(7).getInfo()
+        );
+
+        List<String> result = mostRecentAndHighlyRatedKActivities.apply(places, k);
+
+        Assertions.assertEquals(result.size(), actual.size());
+        Assertions.assertTrue(result.containsAll(actual));
+    }
+
+    @Test
+    public void testMostRecentAndHighlyRated5Activities() {
+        List<Place> places = MemoryBank.getPlaces();
+        List<String> actual = List.of(
+                MemoryBank.getActivities().get(2).getInfo(),
+                MemoryBank.getActivities().get(3).getInfo(),
+                MemoryBank.getActivities().get(4).getInfo(),
+                MemoryBank.getActivities().get(6).getInfo(),
+                MemoryBank.getActivities().get(7).getInfo()
+        );
+
+        List<String> result = mostRecentAndHighlyRated5Activities.apply(places);
+
+        Assertions.assertEquals(result.size(), actual.size());
+        Assertions.assertTrue(result.containsAll(actual));
+    }
+
+
 }

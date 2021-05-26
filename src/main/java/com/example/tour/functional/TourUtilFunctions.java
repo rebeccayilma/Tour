@@ -129,8 +129,8 @@ public class TourUtilFunctions {
                     .average()
                     .orElse(0.0);
 
-    public static final Comparator<List<Activity>> byAverageRating = (al1,al2) ->
-            (int) (averageRatingOfActivities.applyAsDouble(al1) - averageRatingOfActivities.applyAsDouble(al2));
+    public static final Comparator<List<Activity>> byAverageRating =
+            Comparator.comparing(al -> averageRatingOfActivities.applyAsDouble(al));
 
     public static final Function<List<Place>, String> worstAdmin = places ->
             activeActivitiesFromPlaces.apply(places).stream()
