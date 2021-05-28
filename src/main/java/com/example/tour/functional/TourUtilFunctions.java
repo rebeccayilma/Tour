@@ -201,7 +201,7 @@ public class TourUtilFunctions {
      * --------------------------------------
      */
 
-    public static final BiFunction<List<Place>, LocalDate, List<String>> starUsers = (places, date) -> activeActivitiesFromPlaces.apply(places).stream()
+    public static final BiFunction<List<Place>, LocalDate, List<String>> starUsers = (places, date) ->activeActivitiesFromPlaces.apply(places).stream()
             .filter(y -> ratedBefore.test(y,date))
             .filter(a -> averageRatingGreaterThanK.test(a, 4D))
             .map(u->u.getProposedBy().getUsername())
@@ -221,7 +221,8 @@ public class TourUtilFunctions {
             .max(Comparator.comparingInt(r->r.getValue().size()))
             .orElse(null).getKey().longValue();
 
-    public static final Function<List<Place>, Long> mostActiveYearByActivities = places -> activeActivitiesFromPlaces.apply(places).stream()
+    public static final BiFunction<List<Place>, String, Long> mostActiveYearByActivitiesUserSpecific = (places, user) -> activeActivitiesFromPlaces.apply(places).stream()
+            .filter(u->u.getProposedBy().getUsername()==user)
             .collect(Collectors.groupingBy(r->r.getCreatedDate().getYear())).entrySet().stream()
             .max(Comparator.comparingInt(r->r.getValue().size()))
             .orElse(null).getKey().longValue();

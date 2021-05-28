@@ -54,6 +54,8 @@ public class FunctionalMain {
                     "\to) Given a place, find a percentage of unapproved activities");
             System.out.println(
                     "\tp) Given places, find the most active year");
+            System.out.println(
+                    "\tq) Given places and a User, find the most active year for that user");
 
             System.out.println(
                     "\tx) Exit");
@@ -177,6 +179,12 @@ public class FunctionalMain {
                     places = MemoryBank.getPlaces();
                     // Expected output: 2021
                     System.out.println(mostActiveYear.apply(places));
+                    break;
+                case 'q':
+                    System.out.println("Looking for the most active year for user contrib0");
+                    places = MemoryBank.getPlaces();
+                    // Expected output: 2021
+                    System.out.println(mostActiveYearByActivitiesUserSpecific.apply(places, "contrib0"));
                     break;
 
                 // ADD MORE FUNCTIONS HERE
