@@ -51,4 +51,9 @@ public class User {
     public void addApprovedActivity(Activity a) {
         approvedActivities.add(a);
     }
+
+    public String toString() {
+        return
+            "[Id: " + id + ", username: " + username + ", role: " + role + "]";
+    }
 }

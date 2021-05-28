@@ -23,8 +23,8 @@ public class PlaceDTO {
 
     public String toString () {
         return
-            "Id: " + id + ", name: " + name +
+            "[Id: " + id + ", name: " + name +
             ", latitude: " + latitude + ", longitude: " + longitude +
-            ", description: " + description;
+            ", description: " + description + "]";
     }
 }

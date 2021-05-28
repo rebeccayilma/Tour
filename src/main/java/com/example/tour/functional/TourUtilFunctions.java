@@ -48,7 +48,7 @@ public class TourUtilFunctions {
                     .map(Activity::getPlace)
                     .findFirst();
     /**
-     * @return Contributer who proposed top rated activities
+     * @return Contributor who proposed top rated activities
      */
     public static BiFunction<List<Place>, Integer, Optional<User>>
             contributorWhoProposedTopActivities = (places, year) ->

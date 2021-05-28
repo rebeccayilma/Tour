@@ -19,6 +19,6 @@ public class ActivityDTO {
 
     public String toString() {
         return
-            "Id: " + id + ", info: " + info + ", active: " + isActive + ", place: " + place.getName();
+            "[Id: " + id + ", info: " + info + ", active: " + isActive + ", place: " + place.getName() + "]";
     }
 }
