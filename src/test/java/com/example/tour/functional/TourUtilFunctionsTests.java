@@ -12,6 +12,8 @@ import java.time.LocalDate;
 import java.util.*;
 
 import static com.example.tour.functional.TourUtilFunctions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TourUtilFunctionsTests {
 
@@ -28,8 +30,8 @@ public class TourUtilFunctionsTests {
         List<Place> places = MemoryBank.getPlaces();
 
         List<Activity> activities = activitiesFromPlaces.apply(places);
-        Assertions.assertEquals(activities.size(), MemoryBank.getActivities().size());
-        Assertions.assertTrue(activities.containsAll(MemoryBank.getActivities()));
+        assertEquals(activities.size(), MemoryBank.getActivities().size());
+        assertTrue(activities.containsAll(MemoryBank.getActivities()));
     }
 
     /**
@@ -40,7 +42,7 @@ public class TourUtilFunctionsTests {
         List<Activity> list1 = List.of();
         List<Activity> list2 = MemoryBank.getActivities();
 
-        Assertions.assertTrue(byListLength.compare(list1, list2) < 0);
+        assertTrue(byListLength.compare(list1, list2) < 0);
     }
 
     @Test
@@ -48,7 +50,7 @@ public class TourUtilFunctionsTests {
         List<Activity> list1 = MemoryBank.getActivities();
         List<Activity> list2 = MemoryBank.getActivities();
 
-        Assertions.assertEquals(byListLength.compare(list1, list2), 0);
+        assertEquals(byListLength.compare(list1, list2), 0);
     }
 
     /**
@@ -60,13 +62,13 @@ public class TourUtilFunctionsTests {
 
         Optional<String> contributor = contributorWithMoreProposedActivities.apply(places);
         Assertions.assertFalse(contributor.isEmpty());
-        Assertions.assertEquals(contributor.get(), MemoryBank.getContributors().get(0).getUsername());
+        assertEquals(contributor.get(), MemoryBank.getContributors().get(0).getUsername());
     }
 
     @Test
     public void testContributorWithMoreProposedActivitiesNoPlaces() {
         Optional<String> contributor = contributorWithMoreProposedActivities.apply(List.of());
-        Assertions.assertTrue(contributor.isEmpty());
+        assertTrue(contributor.isEmpty());
     }
 
     /**
@@ -78,7 +80,7 @@ public class TourUtilFunctionsTests {
         User admin = MemoryBank.getAdmins().get(0);
         activity.approve(admin);
 
-        Assertions.assertTrue(approvedByUser.test(activity, admin));
+        assertTrue(approvedByUser.test(activity, admin));
     }
 
     @Test
@@ -102,7 +104,7 @@ public class TourUtilFunctionsTests {
 
         int approved = admin.getApprovedActivities().size();
 
-        Assertions.assertEquals(activitiesApprovedByAdminInPlaces.apply(places, admin), approved);
+        assertEquals(activitiesApprovedByAdminInPlaces.apply(places, admin), approved);
     }
 
     @Test
@@ -110,7 +112,7 @@ public class TourUtilFunctionsTests {
         List<Place> places = MemoryBank.getPlaces();
         User admin = new User("thisUser", "thisPass", "ADMIN");
 
-        Assertions.assertEquals(activitiesApprovedByAdminInPlaces.apply(places, admin), 0);
+        assertEquals(activitiesApprovedByAdminInPlaces.apply(places, admin), 0);
     }
 
     /**
@@ -121,7 +123,7 @@ public class TourUtilFunctionsTests {
         Activity activity = MemoryBank.getActivities().get(0);
         LocalDate referenceDate = activity.getRatings().get(0).getDate().plusDays(1);
 
-        Assertions.assertTrue(ratedBefore.test(activity, referenceDate));
+        assertTrue(ratedBefore.test(activity, referenceDate));
     }
 
     @Test
@@ -161,8 +163,8 @@ public class TourUtilFunctionsTests {
             }
         }
 
-        Assertions.assertEquals(activities.size(), checkList.size());
-        Assertions.assertTrue(activities.containsAll(checkList));
+        assertEquals(activities.size(), checkList.size());
+        assertTrue(activities.containsAll(checkList));
     }
 
     @Test
@@ -172,7 +174,7 @@ public class TourUtilFunctionsTests {
 
         List<Activity> activities = activitiesRatedBefore.apply(places, referenceDate);
 
-        Assertions.assertEquals(activities.size(), 0);
+        assertEquals(activities.size(), 0);
     }
 
     /**
@@ -185,8 +187,8 @@ public class TourUtilFunctionsTests {
         List<Rating> ratingsFromMethod = contributor.getRatings();
         List<Rating> ratingsFromFunction = ratingsFromContrib.apply(contributor);
 
-        Assertions.assertEquals(ratingsFromFunction.size(), ratingsFromMethod.size());
-        Assertions.assertTrue(ratingsFromFunction.containsAll(ratingsFromMethod));
+        assertEquals(ratingsFromFunction.size(), ratingsFromMethod.size());
+        assertTrue(ratingsFromFunction.containsAll(ratingsFromMethod));
     }
 
     /**
@@ -195,7 +197,7 @@ public class TourUtilFunctionsTests {
     @Test
     public void testScoreHigherThanHigher() {
         Rating r = new Rating(LocalDate.now(), 5, MemoryBank.getActivities().get(0));
-        Assertions.assertTrue(scoreHigherThan.test(r, 4));
+        assertTrue(scoreHigherThan.test(r, 4));
     }
 
     @Test
@@ -216,7 +218,7 @@ public class TourUtilFunctionsTests {
     @Test
     public void testIsInSouthHemisphereSouth() {
         Place p = new Place("Southern", -150, 32, "Place in southern hem.");
-        Assertions.assertTrue(isInSouthHemisphere.test(p));
+        assertTrue(isInSouthHemisphere.test(p));
     }
 
     @Test
@@ -250,8 +252,8 @@ public class TourUtilFunctionsTests {
             }
         }
 
-        Assertions.assertEquals(places.size(), checkList.size());
-        Assertions.assertTrue(places.containsAll(checkList));
+        assertEquals(places.size(), checkList.size());
+        assertTrue(places.containsAll(checkList));
     }
 
     /**
@@ -276,8 +278,8 @@ public class TourUtilFunctionsTests {
             }
         }
 
-        Assertions.assertEquals(result.size(), compareSet.size());
-        Assertions.assertTrue(result.containsAll(compareSet));
+        assertEquals(result.size(), compareSet.size());
+        assertTrue(result.containsAll(compareSet));
     }
 
     /**
@@ -329,7 +331,7 @@ public class TourUtilFunctionsTests {
 
         Double compareDouble = getCompareDouble(activity);
 
-        Assertions.assertEquals(result, compareDouble);
+        assertEquals(result, compareDouble);
     }
 
     /**
@@ -340,7 +342,7 @@ public class TourUtilFunctionsTests {
         Activity a = MemoryBank.getActivities().get(0);
         Double compareDouble = getCompareDouble(a) - 1;
 
-        Assertions.assertTrue(averageRatingGreaterThanK.test(a, compareDouble));
+        assertTrue(averageRatingGreaterThanK.test(a, compareDouble));
     }
 
     @Test
@@ -370,7 +372,7 @@ public class TourUtilFunctionsTests {
         Double result = averageRatingActiveActivitiesInPlace.apply(place).getAsDouble();
         Double compareDouble = getCompareDouble(place);
 
-        Assertions.assertEquals(result, compareDouble);
+        assertEquals(result, compareDouble);
     }
 
     /**
@@ -390,8 +392,8 @@ public class TourUtilFunctionsTests {
             }
         }
 
-        Assertions.assertEquals(result.size(), compareSet.size());
-        Assertions.assertTrue(result.containsAll(compareSet));
+        assertEquals(result.size(), compareSet.size());
+        assertTrue(result.containsAll(compareSet));
     }
 
     /**
@@ -410,8 +412,8 @@ public class TourUtilFunctionsTests {
         );
         List<Activity> result = activeActivitiesFromPlace.apply(place);
 
-        Assertions.assertEquals(result.size(), actual.size());
-        Assertions.assertTrue(result.containsAll(actual));
+        assertEquals(result.size(), actual.size());
+        assertTrue(result.containsAll(actual));
     }
     @Test
     public void testAverageRatingActiveActivities() {
@@ -421,7 +423,7 @@ public class TourUtilFunctionsTests {
         Double result = averageRatingOfActivities.applyAsDouble(activities);
         Double actual = getCompareDouble(activities);
 
-        Assertions.assertEquals(result, actual);
+        assertEquals(result, actual);
     }
 
     @Test
@@ -434,8 +436,8 @@ public class TourUtilFunctionsTests {
 
         List<String> result = topKActivitiesNearMe.apply(places, radius, lat, lon, k);
 
-        Assertions.assertEquals(result.size(), k);
-        Assertions.assertTrue(result.containsAll(List.of("Great Activity 0", "Activity")));
+        assertEquals(result.size(), k);
+        assertTrue(result.containsAll(List.of("Great Activity 0", "Activity")));
     }
 
     @Test
@@ -453,10 +455,10 @@ public class TourUtilFunctionsTests {
                 MemoryBank.getActivities().get(3).getInfo(),
                 MemoryBank.getActivities().get(4).getInfo()
         );
-        Assertions.assertEquals(result.size(), actual.size());
-        Assertions.assertTrue(result.containsAll(actual));
+        assertEquals(result.size(), actual.size());
+        assertTrue(result.containsAll(actual));
         for (int i = 0; i< result.size() -1; i++){
-            Assertions.assertTrue(result.get(i).equals(actual.get(i)));
+            assertTrue(result.get(i).equals(actual.get(i)));
         }
     }
 
@@ -474,8 +476,8 @@ public class TourUtilFunctionsTests {
                 MemoryBank.getActivities().get(3).getInfo(),
                 MemoryBank.getActivities().get(4).getInfo()
         );
-        Assertions.assertEquals(result.size(), actual.size());
-        Assertions.assertTrue(result.containsAll(actual));
+        assertEquals(result.size(), actual.size());
+        assertTrue(result.containsAll(actual));
     }
 
     @Test
@@ -484,7 +486,7 @@ public class TourUtilFunctionsTests {
         String actual = MemoryBank.getAdmins().get(0).getUsername();
         String result = worstAdmin.apply(places);
 
-        Assertions.assertEquals(result, actual);
+        assertEquals(result, actual);
     }
 
     @Test
@@ -501,8 +503,8 @@ public class TourUtilFunctionsTests {
 
         List<String> result = mostRecentAndHighlyRatedKActivities.apply(places, k);
 
-        Assertions.assertEquals(result.size(), actual.size());
-        Assertions.assertTrue(result.containsAll(actual));
+        assertEquals(result.size(), actual.size());
+        assertTrue(result.containsAll(actual));
     }
 
     @Test
@@ -518,8 +520,8 @@ public class TourUtilFunctionsTests {
 
         List<String> result = mostRecentAndHighlyRated5Activities.apply(places);
 
-        Assertions.assertEquals(result.size(), actual.size());
-        Assertions.assertTrue(result.containsAll(actual));
+        assertEquals(result.size(), actual.size());
+        assertTrue(result.containsAll(actual));
     }
     /**
      * --------------------------------------
@@ -528,31 +530,31 @@ public class TourUtilFunctionsTests {
     public void testStarUser() {
         List<Place> places = MemoryBank.getPlaces();
         List<String> result = starUsers.apply(places, LocalDate.of(2021, 5, 13));
-        Assertions.assertEquals(result.size(), 1);
-        Assertions.assertTrue(result.contains("contrib0"));
+        assertEquals(result.size(), 1);
+        assertTrue(result.contains("contrib0"));
     }
     @Test
     public void testPercentage() {
         Place place = MemoryBank.getPlaces().get(0);
         Double result = percentageOfNotApprovedActivities.apply(place);
-        Assertions.assertEquals(result, 1/6.0*100);
+        assertEquals(result, 1/6.0*100);
     }
     @Test
     public void testMostActiveYear() {
         List<Place> places = MemoryBank.getPlaces();
         Long result = mostActiveYear.apply(places);
-        Assertions.assertEquals(result, 2021);
+        assertEquals(result, 2021);
     }
     @Test
     public void testMostActiveYearByActivities(){
         List<Place> places = MemoryBank.getPlaces();
         Long result = mostActiveYearByActivities.apply(places);
-        Assertions.assertEquals(result, 2021);
+        assertEquals(result, 2021);
     }
     @Test
     void test_mostRatedActivityInGivenAdmin() {
         List<Place> places = MemoryBank.getPlaces();
-        assertEquals(2, mostRatedActivityInGivenAdmin.apply(places, "admin0", 2).size());
+        assertEquals(2, topRatedActivityByAdmin.apply(places, "admin0", 2).size());
     }
 
     @Test
