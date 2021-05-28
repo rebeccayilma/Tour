@@ -12,6 +12,7 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.function.*;
 import java.util.stream.Collectors;
+import static java.util.stream.Collectors.toList;
 
 public class TourUtilFunctions {
 
