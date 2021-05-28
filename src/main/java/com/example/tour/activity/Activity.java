@@ -1,5 +1,7 @@
 package com.example.tour.activity;
 
+import com.example.tour.TransformerUtils;
+import com.example.tour.authentication.model.User;
 import com.example.tour.place.Place;
 import com.example.tour.rating.Rating;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -10,13 +12,15 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name = "activity")
 @Table(name = "activity")
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 public class Activity {
     @Id
     @SequenceGenerator(
@@ -57,6 +61,11 @@ public class Activity {
     @Column(name = "image_path", columnDefinition = "TEXT")
     private String imagePath;
 
+    private User proposedBy;
+    private User approvedBy;
+
+    private LocalDate createdDate;
+
     public void addRating(Rating rating){
             this.ratings.add(rating);
 
@@ -76,5 +85,42 @@ public class Activity {
 
         // Created by Contributor; needs to be approved by Admin
         this.isActive = false;
+    }
+
+    public Activity(String info, Place place, User proposedBy) {
+        this.info = info;
+        this.place = place;
+        place.addActivity(this);
+
+        this.proposedBy = proposedBy;
+        proposedBy.addProposedActivity(this);
+
+        // Created by Contributor; needs to be approved by Admin
+        this.isActive = false;
+    }
+
+    public Activity(String info, Place place, User proposedBy, LocalDate createdDate) {
+        this.info = info;
+        this.place = place;
+        place.addActivity(this);
+
+        this.proposedBy = proposedBy;
+        proposedBy.addProposedActivity(this);
+
+        this.createdDate = createdDate;
+
+        // Created by Contributor; needs to be approved by Admin
+        this.isActive = false;
+    }
+
+    public void approve(User user) {
+        isActive = true;
+        approvedBy = user;
+        user.addApprovedActivity(this);
+    }
+
+    public String toString() {
+        return TransformerUtils.createActivityDTO(this).toString();
+
     }
 }

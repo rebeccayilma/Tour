@@ -1,6 +1,7 @@
 package com.example.tour.rating;
 
 import com.example.tour.activity.Activity;
+import com.example.tour.authentication.model.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -48,14 +49,18 @@ public class Rating {
     @JsonBackReference
     private Activity activity;
 
-        //TODO: Person RelationShip
-        //private Person person;
+    private User user;
 
     public Rating(LocalDate date, int score, Activity activity) {
         this.date = date;
         this.score = score;
+        this.activity = activity;
         activity.addRating(this);
     }
 
-
+    public Rating(LocalDate date, int score, Activity activity, User user) {
+        this(date, score, activity);
+        this.user = user;
+        user.addRating(this);
+    }
 }

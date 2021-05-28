@@ -17,4 +17,8 @@ public class ActivityDTO {
     @JsonProperty(value= "image_path")
     private String imagePath;
 
+    public String toString() {
+        return
+            "[Id: " + id + ", info: " + info + ", active: " + isActive + ", place: " + place.getName() + "]";
+    }
 }

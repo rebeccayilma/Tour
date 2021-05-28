@@ -20,4 +20,11 @@ public class PlaceDTO {
     private String description;
     @JsonProperty(value= "images")
     private List<ImageDTO> images;
+
+    public String toString () {
+        return
+            "[Id: " + id + ", name: " + name +
+            ", latitude: " + latitude + ", longitude: " + longitude +
+            ", description: " + description + "]";
+    }
 }
