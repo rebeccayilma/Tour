@@ -21,7 +21,7 @@ public class TourUtilFunctions {
 
     public static final Function<List<Rating>, Integer> sumUp = rates -> rates.stream().map(Rating::getScore).reduce(0, Integer::sum);
     public static final TriFunction<List<Place>, String, Integer, List<Activity>>
-            mostRatedActivityInGivenAdmin = (places, user, k) ->
+            topRatedActivityByAdmin = (places, user, k) ->
             Optional.ofNullable(places)
                     .orElse(List.of())
                     .stream()
