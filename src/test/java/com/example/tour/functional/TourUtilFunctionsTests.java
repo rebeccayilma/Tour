@@ -549,6 +549,24 @@ public class TourUtilFunctionsTests {
         Long result = mostActiveYearByActivities.apply(places);
         Assertions.assertEquals(result, 2021);
     }
+    @Test
+    void test_mostRatedActivityInGivenAdmin() {
+        List<Place> places = MemoryBank.getPlaces();
+        assertEquals(2, mostRatedActivityInGivenAdmin.apply(places, "admin0", 2).size());
+    }
+
+    @Test
+    void test_mostActivePlaceInAYear() {
+        List<Place> places = MemoryBank.getPlaces();
+        assertTrue(mostActivePlaceInAYear.apply(places, 2021, 3).isPresent());
+    }
+
+    @Test
+    void test_contributorWhoProposedTopActivities() {
+        List<Place> places = MemoryBank.getPlaces();
+        assertTrue(contributorWhoProposedTopActivities.apply(places, 2021).isPresent());
+        assertEquals("CONTRIBUTOR", contributorWhoProposedTopActivities.apply(places, 2021).get().getRole());
+    }
 
 
 }
