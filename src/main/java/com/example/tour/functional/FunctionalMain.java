@@ -123,7 +123,7 @@ public class FunctionalMain {
                     place = MemoryBank.getPlaces().get(0);
 
                     // Expected output: [1.0533333333333332]
-                    System.out.println(averageRatingActiveActivitiesInPlace.apply(place));
+                    System.out.println(averageRatingActiveActivitiesInPlace.apply(place).getAsDouble());
                     break;
                 case 'i':
                     System.out.println("Looking for places with more than 2 active activities");
