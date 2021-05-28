@@ -180,6 +180,12 @@ public class FunctionalMain {
                     // Expected output: 2021
                     System.out.println(mostActiveYear.apply(places));
                     break;
+                case 'q':
+                    System.out.println("Looking for the most active year for user contrib0");
+                    places = MemoryBank.getPlaces();
+                    // Expected output: 2021
+                    System.out.println(mostActiveYearByActivitiesUserSpecific.apply(places, "contrib0"));
+                    break;
 
                 // ADD MORE FUNCTIONS HERE
                 case 'x':
