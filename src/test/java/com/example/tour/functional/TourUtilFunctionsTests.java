@@ -521,6 +521,34 @@ public class TourUtilFunctionsTests {
         Assertions.assertEquals(result.size(), actual.size());
         Assertions.assertTrue(result.containsAll(actual));
     }
+    /**
+     * --------------------------------------
+     */
+    @Test
+    public void testStarUser() {
+        List<Place> places = MemoryBank.getPlaces();
+        List<String> result = starUsers.apply(places, LocalDate.of(2021, 5, 13));
+        Assertions.assertEquals(result.size(), 1);
+        Assertions.assertTrue(result.contains("contrib0"));
+    }
+    @Test
+    public void testPercentage() {
+        Place place = MemoryBank.getPlaces().get(0);
+        Double result = percentageOfNotApprovedActivities.apply(place);
+        Assertions.assertEquals(result, 1/6.0*100);
+    }
+    @Test
+    public void testMostActiveYear() {
+        List<Place> places = MemoryBank.getPlaces();
+        Long result = mostActiveYear.apply(places);
+        Assertions.assertEquals(result, 2021);
+    }
+    @Test
+    public void testMostActiveYearByActivities(){
+        List<Place> places = MemoryBank.getPlaces();
+        Long result = mostActiveYearByActivities.apply(places);
+        Assertions.assertEquals(result, 2021);
+    }
 
 
 }

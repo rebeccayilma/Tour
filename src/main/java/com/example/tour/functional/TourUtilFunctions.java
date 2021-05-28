@@ -150,4 +150,34 @@ public class TourUtilFunctions {
 
     public static final Function<List<Place>, List<String>> mostRecentAndHighlyRated5Activities = (places) ->
             mostRecentAndHighlyRatedKActivities.apply(places, 5);
+    /**
+     * --------------------------------------
+     */
+
+    public static final BiFunction<List<Place>, LocalDate, List<String>> starUsers = (places, date) -> activeActivitiesFromPlaces.apply(places).stream()
+            .filter(y -> ratedBefore.test(y,date))
+            .filter(a -> averageRatingGreaterThanK.test(a, 4D))
+            .map(u->u.getProposedBy().getUsername())
+            .collect(Collectors.toList());
+
+    public static final Function<Place, Long> countOfNotApprovedActivities = place -> activitiesFromPlaces.apply(List.of(place)).stream()
+            .filter(r->r.isActive()==false)
+            .count();
+    public static final Function<Place, Long> countOfAllActivities = place -> activitiesFromPlaces.apply(List.of(place)).stream()
+            .count();
+    public static final Function<Place, Double> percentageOfNotApprovedActivities = place -> (countOfNotApprovedActivities.apply(place).doubleValue()
+            /countOfAllActivities.apply(place).doubleValue()) * 100;
+
+    public static final Function<List<Place>, Long> mostActiveYear = places -> activeActivitiesFromPlaces.apply(places).stream()
+            .flatMap(a->a.getRatings().stream())
+            .collect(Collectors.groupingBy(r->r.getDate().getYear())).entrySet().stream()
+            .max(Comparator.comparingInt(r->r.getValue().size()))
+            .orElse(null).getKey().longValue();
+
+    public static final Function<List<Place>, Long> mostActiveYearByActivities = places -> activeActivitiesFromPlaces.apply(places).stream()
+            .collect(Collectors.groupingBy(r->r.getCreatedDate().getYear())).entrySet().stream()
+            .max(Comparator.comparingInt(r->r.getValue().size()))
+            .orElse(null).getKey().longValue();
+
+
 }
