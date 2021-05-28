@@ -15,6 +15,52 @@ import java.util.stream.Collectors;
 
 public class TourUtilFunctions {
 
+    /**
+     * get most active year for a given admin
+     */
+
+    public static final Function<List<Rating>, Integer> sumUp = rates -> rates.stream().map(Rating::getScore).reduce(0, Integer::sum);
+    public static final TriFunction<List<Place>, String, Integer, List<Activity>>
+            mostRatedActivityInGivenAdmin = (places, user, k) ->
+            Optional.ofNullable(places)
+                    .orElse(List.of())
+                    .stream()
+                    .flatMap(place -> place.getActivities().stream())
+                    .filter(Activity::isActive)
+                    .filter(activity -> activity.getApprovedBy().getUsername().equals(user))
+                    .sorted((a1, a2) -> sumUp.apply(a2.getRatings()) - sumUp.apply(a1.getRatings()))
+                    .limit(k)
+                    .collect(toList());
+
+    /**
+     * @return Place which has top number of activities in a given year
+     */
+    public static final TriFunction<List<Place>, Integer, Integer, Optional<Place>>
+            mostActivePlaceInAYear = (places, year, k) ->
+            Optional.ofNullable(places)
+                    .orElse(List.of())
+                    .stream()
+                    .filter(place -> place.getActivities().size() >= k)
+                    .flatMap(place -> place.getActivities().stream())
+                    .filter(activity -> activity.getCreatedDate().getYear() == year)
+                    .sorted((a1, a2) -> sumUp.apply(a2.getRatings()) - sumUp.apply(a1.getRatings()))
+                    .map(Activity::getPlace)
+                    .findFirst();
+    /**
+     * @return Contributer who proposed top rated activities
+     */
+    public static BiFunction<List<Place>, Integer, Optional<User>>
+            contributorWhoProposedTopActivities = (places, year) ->
+            Optional.ofNullable(places)
+                    .orElse(List.of())
+                    .stream()
+                    .flatMap(place -> place.getActivities().stream())
+                    .filter(activity -> activity.getCreatedDate().getYear() == year)
+                    .sorted((a1, a2) -> sumUp.apply(a2.getRatings()) - sumUp.apply(a1.getRatings()))
+                    .limit(1)
+                    .map(Activity::getProposedBy)
+                    .findFirst();
+    
     public static final Comparator<List<Activity>> byListLength = (l1, l2) -> l1.size() - l2.size();
     public static final Function<List<Place>, List<Activity>> activitiesFromPlaces = places ->
             places.stream()
