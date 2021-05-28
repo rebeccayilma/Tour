@@ -41,6 +41,12 @@ public class FunctionalMain {
                     "\tq) Given places, find the admin who approved the lowest-rated activities");
             System.out.println(
                     "\tr) find activities that are the most recent and are highly rated");
+            System.out.println(
+                    "\ts) Given places, find a user who got the most ratings");
+            System.out.println(
+                    "\tt) Given a place, find a percentage of unapproved activities");
+            System.out.println(
+                    "\tu) Given places, find the most active year");
 
             System.out.println(
                     "\tx) Exit");
@@ -126,6 +132,24 @@ public class FunctionalMain {
                     // Expected output: [Great Activity 2, Great Activity with really really really long description, Great Activity with not so long description, Kayak, Football]
                     System.out.println(mostRecentAndHighlyRatedKActivities.apply(places, 5));
                     break;
+                case 's':
+                    System.out.println("Looking for star user");
+                    places = MemoryBank.getPlaces();
+                    // Expected output: [contrib0]
+                    System.out.println(starUsers.apply(places, LocalDate.of(2021, 5, 13)));
+                    break;
+                case 't':
+                    System.out.println("Looking for percentage of unapproved activities in a place");
+                    place = MemoryBank.getPlaces().get(0);
+                    // Expected output: 16.667
+                    System.out.println(percentageOfNotApprovedActivities.apply(place));
+                case 'u':
+                    System.out.println("Looking for the most active year");
+                    places = MemoryBank.getPlaces();
+                    // Expected output: 2021
+                    System.out.println(mostActiveYear.apply(places));
+                    break;
+
                 // ADD MORE FUNCTIONS HERE
                 case 'x':
                     return;
