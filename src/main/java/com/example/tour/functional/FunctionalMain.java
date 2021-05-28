@@ -54,6 +54,8 @@ public class FunctionalMain {
                     "\to) Given a place, find a percentage of unapproved activities");
             System.out.println(
                     "\tp) Given places, find the most active year");
+            System.out.println(
+                    "\tq) Given places and a User, find the most active year for that user");
 
             System.out.println(
                     "\tx) Exit");

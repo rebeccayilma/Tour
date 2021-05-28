@@ -548,7 +548,7 @@ public class TourUtilFunctionsTests {
     @Test
     public void testMostActiveYearByActivities(){
         List<Place> places = MemoryBank.getPlaces();
-        Long result = mostActiveYearByActivities.apply(places);
+        Long result = mostActiveYearByActivitiesUserSpecific.apply(places,"contrib0");
         assertEquals(result, 2021);
     }
     @Test
