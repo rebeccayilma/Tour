@@ -17,7 +17,7 @@ import static java.util.stream.Collectors.toList;
 public class TourUtilFunctions {
 
     /**
-     * get most active year for a given admin
+     * @return Activity which is most active in a year for a given admin
      */
 
     public static final Function<List<Rating>, Integer> sumUp = rates -> rates.stream().map(Rating::getScore).reduce(0, Integer::sum);
